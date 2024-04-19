@@ -1,0 +1,107 @@
+.home-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  justify-content: space-evenly;
+}
+
+.home-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-right: -70px;
+}
+
+.home-title {
+  font-size: 32px;
+}
+
+.home-p {
+  font-size: 24px;
+}
+
+/* BUTTON STYLES */
+.bn59 {
+  background-color: #141414;
+  color: white;
+  border: 1px solid rgba(54, 54, 54, 0.6);
+  font-weight: 600;
+  position: relative;
+  outline: none;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 60px;
+  width: 180px;
+  opacity: 1;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.home-image{
+  max-width: 800px;
+  max-height: 600px;
+  margin-left: -70px;
+}
+
+@media screen and (max-width: 1049px) and (min-width: 750px) {
+  .home-text {
+    margin-right: 0px;
+  }
+
+  .home-image{
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 749px) and (min-width: 500px) {
+  .home-text {
+    margin-right: 0px;
+  }
+
+  .home-title {
+    font-size: 24px;
+  }
+  
+  .home-p {
+    font-size: 18px;
+  }
+
+  .home-image{
+    max-width: 500px;
+    max-height: 400px;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 499px) and (min-width: 360px) {
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .home-text {
+    margin-right: 0px;
+  }
+
+  .home-title {
+    font-size: 24px;
+  }
+  
+  .home-p {
+    font-size: 18px;
+  }
+
+  .home-image{
+    max-width: 500px;
+    max-height: 350px;
+    margin: 20px 0;
+  }
+}
