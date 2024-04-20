@@ -3,6 +3,7 @@ import axios from "axios";
 import "./UsersStyle.css";
 import UserPersonalInfo from "../UserPersonalInfo/UserPersonalInfo";
 import InfoIcon from "../../icons/InfoIcon";
+import { NavLink } from "react-router-dom";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -23,16 +24,17 @@ const UsersPage = () => {
       });
   }, []);
 
-  const onBtnClick = (userId) => {
+  const onBtnClick = (name, userId) => {
     setExpandedUsers((prevExpandedUsers) =>
       prevExpandedUsers.includes(userId)
         ? prevExpandedUsers.filter((id) => id !== userId)
         : [...prevExpandedUsers, userId]
     );
+    console.log(name);
   };
 
   return (
-    <div className="user-page">
+    <div className="users-page">
       <div className="users-page-container">
         <h1 className="users-page-title">Lista Utenti</h1>
       </div>
@@ -61,6 +63,7 @@ const UsersPage = () => {
                 <td className="user-page-column">{user.gender}</td>
                 <td className="user-page-column">
                   <button
+                    to="/users-page/user-personal-info"
                     onClick={() => onBtnClick(user.name, user._id)}
                     className="icon"
                   >
