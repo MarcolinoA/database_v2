@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
 	{
+		index: {
+			type: Number,
+			required: true,
+		},
 		name: {
 			type: String,
 			required: true,

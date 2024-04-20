@@ -7,16 +7,18 @@ const router = express.Router();
 router.post("/", async (request, response) => {
   try {
     if (
+      !request.body.index ||
       !request.body.name ||
       !request.body.surname ||
       !request.body.birth ||
       !request.body.gender
     ) {
       return response.status(400).send({
-        message: "Send all required fields: name, surname, bith, gender",
+        message: "Send all required fields: index, name, surname, bith, gender",
       });
     }
     const newUser = {
+      index: request.body.index,
       name: request.body.name,
       surname: request.body.surname,
       birth: request.body.birth,
@@ -64,13 +66,14 @@ router.get("/:id", async (request, response) => {
 router.put("/:id", async (request, response) => {
   try {
     if (
+      !request.body.index ||
       !request.body.name ||
       !request.body.surname ||
       !request.body.birth ||
       !request.body.gender
     ) {
       return response.status(400).send({
-        message: "Send all required field: name, surname, birth, gender",
+        message: "Send all required field: index, name, surname, birth, gender",
       });
     }
     const { id } = request.params;
@@ -94,7 +97,7 @@ router.delete("/:id/", async (request, response) => {
       return response.status(404).json({ message: "User not found" });
     }
 
-    return response.status(201).json({ message: "User update successfully" });
+    return response.status(201).json({ message: "User deleted successfully" });
   } catch (error) {}
 });
 

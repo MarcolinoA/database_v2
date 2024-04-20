@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "./UsersStyle.css";
-import AddIcon from "../../icons/InfoIcon";
+import UserPersonalInfo from "../UserPersonalInfo/UserPersonalInfo";
+import InfoIcon from "../../icons/InfoIcon";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [expandedUsers, setExpandedUsers] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -22,8 +23,16 @@ const UsersPage = () => {
       });
   }, []);
 
+  const onBtnClick = (userId) => {
+    setExpandedUsers((prevExpandedUsers) =>
+      prevExpandedUsers.includes(userId)
+        ? prevExpandedUsers.filter((id) => id !== userId)
+        : [...prevExpandedUsers, userId]
+    );
+  };
+
   return (
-    <div className="users-page">
+    <div className="user-page">
       <div className="users-page-container">
         <h1 className="users-page-title">Lista Utenti</h1>
       </div>
@@ -34,7 +43,7 @@ const UsersPage = () => {
         <table className="users-page-table">
           <thead className="users-page-thead">
             <tr className="title-row">
-              <th className="title-column">ID</th>
+              <th className="title-column">Num</th>
               <th className="title-column">Nome</th>
               <th className="title-column">Cognome</th>
               <th className="title-column">Data di nascita</th>
@@ -43,20 +52,30 @@ const UsersPage = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {users.map((user) => (
               <tr key={user._id} className="user-page-row">
-                <td className="user-page-column">{index + 1}</td>
+                <td className="user-page-column">{user.index}</td>
                 <td className="user-page-column">{user.name}</td>
                 <td className="user-page-column">{user.surname}</td>
-                <td className="user-page-column">{user.bith}</td>
+                <td className="user-page-column">{user.birth}</td>
                 <td className="user-page-column">{user.gender}</td>
                 <td className="user-page-column">
-                  <Link
-                    to={``}
+                  <button
+                    onClick={() => onBtnClick(user.name, user._id)}
                     className="icon"
                   >
-                    <AddIcon />
-                  </Link>
+                    <InfoIcon />
+                  </button>
+                  {expandedUsers.includes(user._id) ? (
+                    <UserPersonalInfo
+                      num={user.index}
+                      name={user.name}
+                      surname={user.surname}
+                      birth={user.birth}
+                      gender={user.gender}
+                      id={user._id}
+                    />
+                  ) : null}
                 </td>
               </tr>
             ))}
