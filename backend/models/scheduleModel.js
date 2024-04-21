@@ -11,7 +11,7 @@ const scheduleSchema = mongoose.Schema(
 			required: true,
 		},
 		status: {
-			type: Boolean,
+			type: String,
 			required: true
 		},
 	},

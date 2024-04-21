@@ -4,6 +4,7 @@ import CreateIcon from "../../icons/CreateIcon";
 import InfoIcon from "../../icons/InfoIcon";
 import UsersPage from "../UserPage/UsersPage";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const UserPersonalInfo = (props) => {
   const [schedules, setSchedules] = useState([]);
@@ -40,14 +41,12 @@ const UserPersonalInfo = (props) => {
             <LeftIcon />
           </button>
           <div className="user-page-info">
-            <h1 className="users-page-title">
-              {user_name}
-            </h1>
-            <h4 className="users-page-id">
-              {user_id}
-            </h4>
+            <h1 className="users-page-title">{user_name}</h1>
+            <h4 className="users-page-id">{user_id}</h4>
           </div>
-          <CreateIcon />
+          <Link to="/create-schedule-page" className="icon">
+            <CreateIcon />
+          </Link>
           <table className="users-page-table">
             <thead className="users-page-thead">
               <tr className="title-row">

@@ -4,6 +4,7 @@ import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import UsersPage from "./components/UserPage/UsersPage";
 import UserPersonalInfo from "./components/UserPersonalInfo/UserPersonalInfo";
+import CreateSchedule from "./components/CreateSchedule/CreateSchedule";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/users-page" element={<UsersPage />} />
         <Route path="/users-page/user-personal-info" element={<UserPersonalInfo />} />
+        <Route path="/create-schedule-page" element={<CreateSchedule />} />
       </Routes>
     </BrowserRouter>
   );
