@@ -1,13 +1,13 @@
-.users-page {
+.users-page{
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
-
+  position: relative;
 }
 
 .users-page-table {
-  width: 80%;
+  width: 600px;
 }
 
 .users-page-title {
@@ -32,4 +32,25 @@ a {
   background-color: #EFEFEF;
   font-size: 18px;
 }
+
+.centered-user-info {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  justify-content: center;
+  align-items: center;
+  visibility: visible;
+}
+
+/*
+.centered-user-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  background-color: white; 
+  z-index: 1000;
+}
+*/
 
