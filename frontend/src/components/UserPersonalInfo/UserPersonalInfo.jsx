@@ -5,6 +5,8 @@ import InfoIcon from "../../icons/InfoIcon";
 import UsersPage from "../UserPage/UsersPage";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import DeleteIcon from "../../icons/DeleteIcon";
+import EditIcon from "../../icons/EditIcon";
 
 const UserPersonalInfo = (props) => {
   const [schedules, setSchedules] = useState([]);
@@ -63,9 +65,14 @@ const UserPersonalInfo = (props) => {
                   <td className="user-page-column">{schedule.schedule}</td>
                   <td className="user-page-column">{schedule.status}</td>
                   <td className="user-page-column">
-                    <button className="icon">
-                      <InfoIcon />
-                    </button>
+                    <div className="icons-container">
+                      <Link to="/" className="icon">
+                        <DeleteIcon />
+                      </Link>
+                      <Link to="/" className="icon">
+                        <EditIcon />
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
