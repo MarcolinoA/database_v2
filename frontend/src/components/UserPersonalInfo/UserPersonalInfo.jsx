@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LeftIcon from "../../icons/LeftIcon";
 import CreateIcon from "../../icons/CreateIcon";
-import InfoIcon from "../../icons/InfoIcon";
 import UsersPage from "../UserPage/UsersPage";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -66,10 +65,10 @@ const UserPersonalInfo = (props) => {
                   <td className="user-page-column">{schedule.status}</td>
                   <td className="user-page-column">
                     <div className="icons-container">
-                      <Link to="/" className="icon">
+                      <Link to={`/delete-schedule-page/${schedule._id}`} className="icon">
                         <DeleteIcon />
                       </Link>
-                      <Link to="/" className="icon">
+                      <Link to="/edit-schedule-page/${schedule._id}" className="icon">
                         <EditIcon />
                       </Link>
                     </div>

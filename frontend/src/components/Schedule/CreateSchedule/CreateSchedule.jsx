@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./CreateScheduleStyle.css";
-import LeftIcon from "../../icons/LeftIcon";
+import LeftIcon from "../../../icons/LeftIcon";
 
 const CreateSchedule = () => {
   const [id, setId] = useState("");
@@ -37,10 +37,12 @@ const CreateSchedule = () => {
 
   return (
     <div className="create-schedule">
-      <Link to="/users-page" className="icon">
-        <LeftIcon />
-      </Link>
-      <h1 className="title">Create Schedule</h1>
+      <div className="create-schedule-header">
+        <Link to="/users-page" className="create-schedule-icon">
+          <LeftIcon />
+        </Link>
+        <h1 className="title">Create Schedule</h1>
+      </div>
       <div className="input-container">
       <div className="input-div">
           <input

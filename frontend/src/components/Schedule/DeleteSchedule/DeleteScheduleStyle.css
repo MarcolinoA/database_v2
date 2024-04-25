@@ -1,0 +1,43 @@
+.delete-exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.delete-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid;
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 10px;
+  width: 30%;
+  align-items: center;
+  text-align: center;
+}
+
+.delete-text {
+  font-size: 24px;
+}
+
+.delete-btn {
+  display: inline-block;
+  padding: 0.5em 1.7em;
+  margin: 20px 0.1em 0.1em 0;
+  border: 0.16em solid black;
+  background-color: #770505;
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: white;
+  text-shadow: 0 0.04em 0.04em rgb(119, 5, 5, 0.3);
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  color: #770505;
+  background-color: white;
+}
