@@ -1,21 +1,40 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./CreateScheduleStyle.css";
+import { Link, useNavigate, useParams } from "react-router-dom"; // Aggiungi questa importazione
 import LeftIcon from "../../../icons/LeftIcon";
 
-const CreateSchedule = () => {
-  const [id, setId] = useState("");
+const EditSchedule = () => {
+  const [ID, setID] = useState("");
   const [name, setName] = useState("");
   const [schedule, setSchedule] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const handleSaveBook = () => {
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:5555/schedules/${id}`)
+      .then((response) => {
+        setID(response.data.id);
+        setName(response.data.name);
+        setSchedule(response.data.schedule);
+        setStatus(response.data.status);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert("An error happened. Please check console");
+        console.log(error);
+      });
+  }, [id]);
+
+  const handleSaveSchedule = () => {
     const data = {
-      id,
+      ID, // Utilizza id anziché suca
       name,
       schedule,
       status,
@@ -23,7 +42,7 @@ const CreateSchedule = () => {
 
     setLoading(true);
     axios
-      .post("http://localhost:5555/schedules", data)
+      .put(`http://localhost:5555/schedules/${id}`, data)
       .then(() => {
         setLoading(false);
         navigate("/users-page/");
@@ -48,8 +67,8 @@ const CreateSchedule = () => {
           <input
             type="input"
             placeholder="Id"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={ID}
+            onChange={(e) => setID(e.target.value)}
             className="input"
             name="id"
           />
@@ -88,10 +107,12 @@ const CreateSchedule = () => {
           />
         </div>
 
-        <button className="save-btn" onClick={handleSaveBook}>Save</button>
+        <button className="save-btn" onClick={handleSaveSchedule}>
+          Save
+        </button>
       </div>
     </div>
   );
 };
 
-export default CreateSchedule;
+export default EditSchedule;

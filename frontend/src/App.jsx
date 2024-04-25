@@ -6,7 +6,7 @@ import UsersPage from "./components/UserPage/UsersPage";
 import UserPersonalInfo from "./components/UserPersonalInfo/UserPersonalInfo";
 import CreateSchedule from "./components/Schedule/CreateSchedule/CreateSchedule.jsx"
 import DeleteSchedule from "./components/Schedule/DeleteSchedule/DeleteSchedule";
-import EditSchedule from "./components/Schedule/ModifySchedule/ModifySchedule";
+import EditSchedule from "./components/Schedule/EditSchedule/EditSchedule.jsx";
 
 function App() {
   return (

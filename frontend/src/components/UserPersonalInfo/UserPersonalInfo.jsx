@@ -68,7 +68,7 @@ const UserPersonalInfo = (props) => {
                       <Link to={`/delete-schedule-page/${schedule._id}`} className="icon">
                         <DeleteIcon />
                       </Link>
-                      <Link to="/edit-schedule-page/${schedule._id}" className="icon">
+                      <Link to={`/edit-schedule-page/${schedule._id}`} className="icon">
                         <EditIcon />
                       </Link>
                     </div>

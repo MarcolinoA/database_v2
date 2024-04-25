@@ -15,7 +15,7 @@ const DeleteSchedule = () => {
       .delete(`http://localhost:5555/schedules/${id}/`)
       .then(() => {
         setLoading(false);
-        navigate("/users-page/user-personal-info");
+        navigate("/users-page/");
       })
       .catch((error) => {
         setLoading(false);
@@ -26,7 +26,7 @@ const DeleteSchedule = () => {
 
   return (
     <div className="delete-exercise">
-      <Link to="/users-page/user-personal-info" className="icon">
+      <Link to="/users-page/" className="icon">
         <LeftIcon />
       </Link>
       <h1 className="title">Elimina Scheda</h1>

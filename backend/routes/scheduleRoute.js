@@ -7,15 +7,17 @@ const scheduleRoute = express.Router();
 scheduleRoute.post("/", async (request, response) => {
   try {
     if (
+      !request.body.ID ||
       !request.body.name ||
       !request.body.schedule ||
       !request.body.status
     ) {
       return response.status(400).send({
-        message: "Send all required fields: name, schedule, status",
+        message: "Send all required fields: id, name, schedule, status",
       });
     }
     const newSchedule = {
+      ID: request.body.ID,
       name: request.body.name,
       schedule: request.body.schedule,
       status: request.body.status,
@@ -61,9 +63,9 @@ scheduleRoute.get("/:id", async (request, response) => {
 //update a schedule
 scheduleRoute.put("/:id", async (request, response) => {
   try {
-    if (!request.body.name || !request.body.schedule || !request.body.status) {
+    if (!request.body.ID || !request.body.name || !request.body.schedule || !request.body.status) {
       return response.status(400).send({
-        message: "Send all required field: name, schedule, status",
+        message: "Send all required field: id, name, schedule, status",
       });
     }
     const { id } = request.params;
@@ -81,7 +83,7 @@ scheduleRoute.put("/:id", async (request, response) => {
 });
 
 //delete schedule
-scheduleRoute.delete("/:id/", async (request, response) => {
+scheduleRoute.delete("/:id", async (request, response) => {
   try {
     const { id } = request.params;
     const result = await Schedule.findByIdAndDelete(id);
@@ -89,10 +91,11 @@ scheduleRoute.delete("/:id/", async (request, response) => {
       return response.status(404).json({ message: "Schedule not found" });
     }
 
-    return response
-      .status(201)
-      .json({ message: "Schedule deleted successfully" });
-  } catch (error) {}
-});
+    return response.status(200).json({ message: "Schedule deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).json({ message: "Internal server error" });
+  }
+})
 
 export default scheduleRoute;
