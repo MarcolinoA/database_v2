@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const scheduleSchema = mongoose.Schema(
+const scheduleInfoSchema = mongoose.Schema(
 	{
 		ID: {
 			type: String,
@@ -10,19 +10,11 @@ const scheduleSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-    series: {
+		schedule: {
 			type: String,
 			required: true,
 		},
-    rep: {
-			type: String,
-			required: true,
-		},
-		break: {
-			type: String,
-			required: true,
-		},
-		img: {
+		status: {
 			type: String,
 			required: true
 		},
@@ -32,4 +24,4 @@ const scheduleSchema = mongoose.Schema(
 	}
 )
 
-export const Schedule = mongoose.model("Schedule", scheduleSchema);
+export const ScheduleInfo = mongoose.model("ScheduleInfo", scheduleInfoSchema);

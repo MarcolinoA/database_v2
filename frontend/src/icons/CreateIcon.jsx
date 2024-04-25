@@ -4,8 +4,8 @@ function CreateIcon({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="42"
-      height="42"
+      width="45"
+      height="45"
       version="1"
       viewBox="0 0 50 50"
       className={`${className}`}

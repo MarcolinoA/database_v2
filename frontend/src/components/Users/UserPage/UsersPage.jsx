@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./UsersStyle.css";
-import InfoIcon from "../../icons/InfoIcon";
+import InfoIcon from "../../../icons/InfoIcon";
 import UserPersonalInfo from "../UserPersonalInfo/UserPersonalInfo";
 
 const UsersPage = () => {
@@ -32,7 +32,10 @@ const UsersPage = () => {
   return (
     <div className={`users-page`}>
       {showDetails ? (
-        <UserPersonalInfo user_name={selectedUser.name} user_id={selectedUser._id} />
+        <UserPersonalInfo
+          user_name={selectedUser.name}
+          user_id={selectedUser._id}
+        />
       ) : (
         <>
           <div className="users-page-container">
@@ -42,6 +45,7 @@ const UsersPage = () => {
             <thead className="users-page-thead">
               <tr className="title-row">
                 <th className="title-column">Num</th>
+                <th className="title-column">ID</th>
                 <th className="title-column">Nome</th>
                 <th className="title-column">Cognome</th>
                 <th className="title-column">Data di nascita</th>
@@ -53,6 +57,7 @@ const UsersPage = () => {
               {users.map((user) => (
                 <tr key={user._id} className="user-page-row">
                   <td className="user-page-column">{user.index}</td>
+                  <td className="user-page-column">{user._id}</td>
                   <td className="user-page-column">{user.name}</td>
                   <td className="user-page-column">{user.surname}</td>
                   <td className="user-page-column">{user.birth}</td>

@@ -4,3 +4,10 @@
 	align-items: center;
 	justify-content: center;
 } 
+
+.users-page-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}

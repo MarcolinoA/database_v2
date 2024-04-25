@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./CreateScheduleStyle.css";
+import "./CreateScheduleInfoStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
-const CreateSchedule = () => {
-  const [id, setId] = useState("");
+const CreateScheduleInfo = () => {
+  const [ID, setID] = useState("");
   const [name, setName] = useState("");
   const [schedule, setSchedule] = useState("");
   const [status, setStatus] = useState("");
@@ -15,7 +15,7 @@ const CreateSchedule = () => {
 
   const handleSaveBook = () => {
     const data = {
-      id,
+      ID,
       name,
       schedule,
       status,
@@ -44,12 +44,12 @@ const CreateSchedule = () => {
         <h1 className="title">Create Schedule</h1>
       </div>
       <div className="input-container">
-      <div className="input-div">
+        <div className="input-div">
           <input
             type="input"
             placeholder="Id"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={ID}
+            onChange={(e) => setID(e.target.value)}
             className="input"
             name="id"
           />
@@ -88,10 +88,12 @@ const CreateSchedule = () => {
           />
         </div>
 
-        <button className="save-btn" onClick={handleSaveBook}>Save</button>
+        <button className="save-btn" onClick={handleSaveBook}>
+          Save
+        </button>
       </div>
     </div>
   );
 };
 
-export default CreateSchedule;
+export default CreateScheduleInfo;

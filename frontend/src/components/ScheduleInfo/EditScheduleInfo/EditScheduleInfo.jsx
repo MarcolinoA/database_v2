@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom"; // Aggiungi questa importazione
 import LeftIcon from "../../../icons/LeftIcon";
 
-const EditSchedule = () => {
+const EditScheduleInfo = () => {
   const [ID, setID] = useState("");
   const [name, setName] = useState("");
   const [schedule, setSchedule] = useState("");
@@ -12,7 +12,6 @@ const EditSchedule = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-
 
   useEffect(() => {
     setLoading(true);
@@ -63,7 +62,7 @@ const EditSchedule = () => {
         <h1 className="title">Create Schedule</h1>
       </div>
       <div className="input-container">
-      <div className="input-div">
+        <div className="input-div">
           <input
             type="input"
             placeholder="Id"
@@ -115,4 +114,4 @@ const EditSchedule = () => {
   );
 };
 
-export default EditSchedule;
+export default EditScheduleInfo;

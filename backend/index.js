@@ -3,7 +3,7 @@ import cors from "cors";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import userRoute from "./routes/userRoute.js";
-import scheduleRoute from "./routes/scheduleRoute.js";
+import scheduleInfoRoute from "./routes/scheduleInfoRoute.js";
 
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(cors()); // Usa il middleware cors per gestire le richieste CORS
 app.use(express.json());
 
 app.use("/users", userRoute);
-app.use("/schedules", scheduleRoute);
+app.use("/schedules", scheduleInfoRoute);
 
 app.get("/", (request, response) => {
   console.log(request);
