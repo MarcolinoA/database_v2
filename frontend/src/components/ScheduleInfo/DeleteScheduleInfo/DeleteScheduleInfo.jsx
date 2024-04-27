@@ -9,7 +9,7 @@ const DeleteScheduleInfo = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   
-  const handleDeleteBook = () => {
+  const handleDeleteSchedule = () => {
     setLoading(true);
     axios
       .delete(`http://localhost:5555/schedules/${id}/`)
@@ -17,7 +17,7 @@ const DeleteScheduleInfo = () => {
         setLoading(false);
         navigate("/users-page/");
       })
-      .catch((error) => {
+      .catch((error) => {zz
         setLoading(false);
         alert("An error happened. Please check console");
         console.log(error);
@@ -40,7 +40,7 @@ const DeleteScheduleInfo = () => {
           Sei sicuro di voler eliminare questa scheda?
         </h3>
 
-        <button className="delete-btn" onClick={handleDeleteBook}>
+        <button className="delete-btn" onClick={handleDeleteSchedule}>
           Elimina
         </button>
       </div>

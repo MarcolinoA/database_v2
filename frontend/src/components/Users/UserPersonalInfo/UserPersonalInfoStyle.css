@@ -3,6 +3,8 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	align-items: center;
+	text-align: center;
 } 
 
 .users-page-header {
@@ -10,4 +12,9 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+}
+
+.icons-container {
+	display: flex;
+	flex-direction: row;
 }

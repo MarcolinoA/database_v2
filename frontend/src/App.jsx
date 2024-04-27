@@ -16,20 +16,16 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route path="/users-page" element={<UsersPage />} />
-        <Route
-          path="/users-page/user-personal-info"
-          element={<UserPersonalInfo />}
-        />
+        <Route path="/user-personal-info/:id" element={<UserPersonalInfo />} />
+
         <Route path="/create-schedule-page" element={<CreateScheduleInfo />} />
-        <Route
-          path="/delete-schedule-page/:id"
-          element={<DeleteScheduleInfo /> }
-        />
+        <Route path="/delete-schedule-page/:id" element={<DeleteScheduleInfo /> } />
         <Route path="/edit-schedule-page/:id" element={<EditScheduleInfo />} />
 
-        <Route path="/add-exercises-page" element={<AddExercises />} />
         <Route path="/view-schedule-page" element={<ViewSchedule />} />
+        <Route path="/add-exercises-page" element={<AddExercises />} />
       </Routes>
     </BrowserRouter>
   );
