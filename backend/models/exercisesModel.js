@@ -1,20 +1,20 @@
 import mongoose from "mongoose";
 
-const scheduleSchema = mongoose.Schema(
+const exercisesSchema = mongoose.Schema(
 	{
 		name: {
 			type: String,
 			required: true,
 		},
-    series: {
+		group: {
 			type: String,
 			required: true,
 		},
-    rep: {
-			type: String,
-			required: true,
-		},
-		break: {
+    desc: {
+      type: String,
+      required: true
+    },
+		img: {
 			type: String,
 			required: true,
 		},
@@ -24,4 +24,4 @@ const scheduleSchema = mongoose.Schema(
 	}
 )
 
-export const Schedule = mongoose.model("Schedule", scheduleSchema);
+export const Exercises = mongoose.model("Exercises", exercisesSchema);
