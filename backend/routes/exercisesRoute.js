@@ -1,3 +1,4 @@
+/*
 import express from "express";
 import { Exercises } from "../models/exercisesModel.js"; 
 
@@ -99,3 +100,4 @@ exerciseRoute.delete("/:id/", async (request, response) => {
 });
 
 export default exerciseRoute;
+*/

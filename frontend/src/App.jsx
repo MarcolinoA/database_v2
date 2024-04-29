@@ -2,13 +2,11 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
-import UsersPage from "./components/Users/UserPage/UsersPage.jsx";
-import CreateScheduleInfo from "./components/ScheduleInfo/CreateScheduleInfo/CreateScheduleInfo.jsx";
-import DeleteScheduleInfo from "./components/ScheduleInfo/DeleteScheduleInfo/DeleteScheduleInfo.jsx";
-import EditScheduleInfo from "./components/ScheduleInfo/EditScheduleInfo/EditScheduleInfo.jsx";
-import AddExercises from "./components/Schedule/AddExercises/AddExercises.jsx";
-import ViewSchedule from "./components/Schedule/ViewSchedule/ViewSchedule.jsx";
-import UserPersonalInfo from "./components/Users/UserPersonalInfo/UserPersonalInfo.jsx";
+import UsersPage from "./components/Users/UsersListPage/UsersPage";
+import UserDetailPage from "./components/Users/UserDetailPage/UserDetailPage";
+import UserDeletePage from "./components/Users/UserDeletePage/UserDeletePage";
+import UserEditPage from "./components/Users/UserEditPage/UserEditPage";
+import UserCreatePage from "./components/Users/UserCreatePage/UserCreatePage";
 
 function App() {
   return (
@@ -16,16 +14,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/users-page" element={<UsersPage />} />
-        <Route path="/user-personal-info/:id" element={<UserPersonalInfo />} />
-
-        <Route path="/create-schedule-page" element={<CreateScheduleInfo />} />
-        <Route path="/delete-schedule-page/:id" element={<DeleteScheduleInfo /> } />
-        <Route path="/edit-schedule-page/:id" element={<EditScheduleInfo />} />
-
-        <Route path="/view-schedule-page" element={<ViewSchedule />} />
-        <Route path="/add-exercises-page" element={<AddExercises />} />
+        <Route path="/users/:userId/cards" element={<UserDetailPage />} />
+        <Route path="/users/:userId/delete" element={<UserDeletePage />} />
+        <Route path="/users/:userId/edit" element={<UserEditPage />} />
+        <Route path="/users/create" element={<UserCreatePage />} />
       </Routes>
     </BrowserRouter>
   );

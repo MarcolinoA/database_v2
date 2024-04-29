@@ -3,25 +3,25 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom"; // Aggiungi questa importazione
 import LeftIcon from "../../../icons/LeftIcon";
 
-const EditScheduleInfo = () => {
-  const [ID, setID] = useState("");
+const UserEditPage = () => {
   const [name, setName] = useState("");
-  const [schedule, setSchedule] = useState("");
-  const [status, setStatus] = useState("");
+  const [surname, setSurname] = useState("");
+  const [birth, setBirth] = useState("");
+  const [gender, setGender] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { userId } = useParams();
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5555/schedules/${id}`)
+      .get(`http://localhost:5554/users/${userId}`)
       .then((response) => {
-        setID(response.data.id);
         setName(response.data.name);
-        setSchedule(response.data.schedule);
-        setStatus(response.data.status);
+        setSurname(response.data.surname);
+        setBirth(response.data.birth);
+        setGender(response.data.gender);
         setLoading(false);
       })
       .catch((error) => {
@@ -29,19 +29,19 @@ const EditScheduleInfo = () => {
         alert("An error happened. Please check console");
         console.log(error);
       });
-  }, [id]);
+  }, [userId]);
 
-  const handleSaveSchedule = () => {
+  const handleSaveUser = () => {
     const data = {
-      ID, // Utilizza id anziché suca
       name,
-      schedule,
-      status,
+      surname,
+      birth,
+      gender
     };
 
     setLoading(true);
     axios
-      .put(`http://localhost:5555/schedules/${id}`, data)
+      .put(`http://localhost:5554/users/${userId}`, data)
       .then(() => {
         setLoading(false);
         navigate("/users-page/");
@@ -59,20 +59,9 @@ const EditScheduleInfo = () => {
         <Link to="/users-page" className="create-schedule-icon">
           <LeftIcon />
         </Link>
-        <h1 className="title">Create Schedule</h1>
+        <h1 className="title">Edit User</h1>
       </div>
       <div className="input-container">
-        <div className="input-div">
-          <input
-            type="input"
-            placeholder="Id"
-            value={ID}
-            onChange={(e) => setID(e.target.value)}
-            className="input"
-            name="id"
-          />
-        </div>
-
         <div className="input-div">
           <input
             type="input"
@@ -87,26 +76,37 @@ const EditScheduleInfo = () => {
         <div className="input-div">
           <input
             type="input"
-            placeholder="Schedule"
-            value={schedule}
-            onChange={(e) => setSchedule(e.target.value)}
+            placeholder="Surname"
+            value={surname}
+            onChange={(e) => setSurname(e.target.value)}
             className="input"
-            name="schedule"
+            name="surname"
           />
         </div>
 
         <div className="input-div">
           <input
             type="input"
-            placeholder="Status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            placeholder="Birth"
+            value={birth}
+            onChange={(e) => setBirth(e.target.value)}
             className="input"
-            name="status"
+            name="birth"
           />
         </div>
 
-        <button className="save-btn" onClick={handleSaveSchedule}>
+        <div className="input-div">
+          <input
+            type="input"
+            placeholder="Gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            className="input"
+            name="gender"
+          />
+        </div>
+
+        <button className="save-btn" onClick={handleSaveUser}>
           Save
         </button>
       </div>
@@ -114,4 +114,4 @@ const EditScheduleInfo = () => {
   );
 };
 
-export default EditScheduleInfo;
+export default UserEditPage;

@@ -3,6 +3,10 @@ import axios from "axios";
 import "./UsersStyle.css";
 import InfoIcon from "../../../icons/InfoIcon";
 import { Link } from "react-router-dom";
+import DeleteIcon from "../../../../../frontend_/src/icons/DeleteIcon";
+import EditIcon from "../../../../../frontend_/src/icons/EditIcon";
+import LeftIcon from "../../../icons/LeftIcon";
+import CreateIcon from "../../../../../frontend_/src/icons/CreateIcon";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +15,7 @@ const UsersPage = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5555/users")
+      .get("http://localhost:5554/users")
       .then((response) => {
         setUsers(response.data.data);
         setLoading(false);
@@ -24,8 +28,16 @@ const UsersPage = () => {
 
   return (
     <div className="users-page">
-      <div className="users-page-container">
-        <h1 className="users-page-title">Lista Utenti</h1>
+      <div className="users-page-header">
+        <Link to="/" className="icon">
+          <LeftIcon />
+        </Link>
+        <div className="user-page-info">
+          <h1 className="users-page-title">Lista Utenti</h1>
+        </div>
+        <Link to={`/users/create`} className="btn">
+          <CreateIcon />
+        </Link>
       </div>
       <table className="users-page-table">
         <thead className="users-page-thead">
@@ -37,6 +49,7 @@ const UsersPage = () => {
             <th className="title-column">Data di nascita</th>
             <th className="title-column">Sesso</th>
             <th className="title-column">Schede</th>
+            <th className="title-column">Opzioni</th>
           </tr>
         </thead>
         <tbody>
@@ -49,12 +62,16 @@ const UsersPage = () => {
               <td className="user-page-column">{user.birth}</td>
               <td className="user-page-column">{user.gender}</td>
               <td className="user-page-column">
-                <Link
-                  to={`/user-personal-info/${user._id}`}
-                  state={{ userName:user.name, userId: user._id }} // Pass props here
-                  className="icon"
-                >
+                <Link to={`/users/${user._id}/cards`} className="btn">
                   <InfoIcon />
+                </Link>
+              </td>
+              <td className="user-page-column">
+                <Link to={`/users/${user._id}/delete`} className="btn">
+                  <DeleteIcon />
+                </Link>
+                <Link to={`/users/${user._id}/edit`} className="btn">
+                  <EditIcon />
                 </Link>
               </td>
             </tr>

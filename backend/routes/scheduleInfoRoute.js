@@ -1,3 +1,4 @@
+/*
 import express from "express";
 import { ScheduleInfo } from "../models/scheduleInfoModel.js";
 
@@ -100,3 +101,4 @@ scheduleInfoRoute.delete("/:id", async (request, response) => {
 })
 
 export default scheduleInfoRoute;
+*/
