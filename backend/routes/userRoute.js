@@ -4,30 +4,16 @@ import { User } from "../models/userModel.js";
 const router = express.Router();
 
 //add new user
-router.post("/", async (request, response) => {
+router.get("/:id", async (request, response) => {
   try {
-    if (
-      !request.body.index ||
-      !request.body.name ||
-      !request.body.surname ||
-      !request.body.birth ||
-      !request.body.gender
-    ) {
-      return response.status(400).send({
-        message: "Send all required fields: index, name, surname, bith, gender",
-      });
+    const { id } = request.params;
+    const user = await User.findById(id).populate("schedules"); // Popola i dati delle schede
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
     }
-    const newUser = {
-      index: request.body.index,
-      name: request.body.name,
-      surname: request.body.surname,
-      birth: request.body.birth,
-      gender: request.body.gender,
-    };
 
-    const user = await User.create(newUser);
-
-    return response.status(201).send(user);
+    return response.status(200).send(user);
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
@@ -54,6 +40,10 @@ router.get("/:id", async (request, response) => {
   try {
     const { id } = request.params;
     const user = await User.findById(id);
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
+    }
 
     return response.status(200).send(user);
   } catch (error) {

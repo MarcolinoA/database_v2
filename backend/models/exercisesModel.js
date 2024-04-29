@@ -1,3 +1,4 @@
+/*
 import mongoose from "mongoose";
 
 const exercisesSchema = mongoose.Schema(
@@ -25,3 +26,4 @@ const exercisesSchema = mongoose.Schema(
 )
 
 export const Exercises = mongoose.model("Exercises", exercisesSchema);
+*/

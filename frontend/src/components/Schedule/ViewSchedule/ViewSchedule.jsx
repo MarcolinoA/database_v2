@@ -6,7 +6,7 @@ import LeftIcon from "../../../icons/LeftIcon";
 
 const ViewSchedule = () => {
   const location = useLocation();
-  const { scheduleName, userId } = location.state;
+  const { scheduleName, userId, scheduleId } = location.state;
 
   return (
     <div className="view-schedule">
@@ -18,7 +18,7 @@ const ViewSchedule = () => {
           <h1 className="view-schedule-title">{scheduleName}</h1>
           <h4 className="view-schedule-id">{userId}</h4>
         </div>
-        <Link to="/add-exercises-page" className="icon">
+        <Link to="/add-exercises-page" state={{ scheduleId: scheduleId }} className="icon">
           <AddIcon />
         </Link>
       </div>
@@ -40,3 +40,4 @@ const ViewSchedule = () => {
 };
 
 export default ViewSchedule;
+

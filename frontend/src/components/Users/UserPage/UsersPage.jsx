@@ -51,7 +51,7 @@ const UsersPage = () => {
               <td className="user-page-column">
                 <Link
                   to={`/user-personal-info/${user._id}`}
-                  state={{ userName: user.name, userId: user._id }} // Pass props here
+                  state={{ userName:user.name, userId: user._id }} // Pass props here
                   className="icon"
                 >
                   <InfoIcon />

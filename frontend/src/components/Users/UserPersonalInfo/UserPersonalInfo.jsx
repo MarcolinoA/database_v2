@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import LeftIcon from "../../../icons/LeftIcon";
 import CreateIcon from "../../../icons/CreateIcon";
 import axios from "axios";
@@ -13,17 +13,23 @@ const UserPersonalInfo = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const { id } = useParams();
+
   const location = useLocation();
   const { userName, userId } = location.state;
-  
+
   useEffect(() => {
-    console.log(userName);
     console.log(userId);
     setLoading(true);
     axios
-      .get(`http://localhost:5555/schedules?user_id=${userId}`)
+      .get(`http://localhost:5555/users/${id}`)
       .then((response) => {
-        setSchedules(response.data.data);
+        const userData = response.data.data;
+        if (userData && userData.schedules && userData.schedules.length > 0) {
+          setSchedules(userData.schedules);
+        } else {
+          setSchedules([]); // Nessun dato trovato
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -31,7 +37,7 @@ const UserPersonalInfo = () => {
         alert("An error happened. Please check console");
         console.log(error);
       });
-  }, [userId]);
+  }, [id]);
 
   return (
     <div className="users-page-container">
@@ -58,38 +64,47 @@ const UserPersonalInfo = () => {
           </tr>
         </thead>
         <tbody>
-          {schedules.map((schedule) => (
-            <tr key={schedule._id} className="user-page-row">
-              <td className="user-page-column">{schedule.name}</td>
-              <td className="user-page-column">{userId}</td>
-              <td className="user-page-column">{schedule.status}</td>
-              <td className="user-page-column">
-                <Link
-                  state={{ scheduleName: schedule.name, userId: userId }}
-                  to={`/view-schedule-page`}
-                  className="icon"
-                >
-                  <ViewingIcon />
-                </Link>
-              </td>
-              <td className="user-page-column">
-                <div className="icons-container">
+          {schedules && schedules.length > 0 ? (
+            schedules.map((schedule) => (
+              <tr key={schedule._id} className="user-page-row">
+                <td className="user-page-column">{schedule.name || "N/A"}</td>
+                <td className="user-page-column">{userId}</td>
+                <td className="user-page-column">{schedule.status || "N/A"}</td>
+                <td className="user-page-column">
                   <Link
-                    to={`/delete-schedule-page/${schedule._id}`}
+                    state={{
+                      scheduleName: schedule?.name || "N/A",
+                      userId: userId,
+                    }}
+                    to={`/view-schedule-page/${schedule?._id || ""}`}
                     className="icon"
                   >
-                    <DeleteIcon />
+                    <ViewingIcon />
                   </Link>
-                  <Link
-                    to={`/edit-schedule-page/${schedule._id}`}
-                    className="icon"
-                  >
-                    <EditIcon />
-                  </Link>
-                </div>
-              </td>
+                </td>
+                <td className="user-page-column">
+                  <div className="icons-container">
+                    <Link
+                      to={`/delete-schedule-page/${schedule?._id || ""}`}
+                      className="icon"
+                    >
+                      <DeleteIcon />
+                    </Link>
+                    <Link
+                      to={`/edit-schedule-page/${schedule?._id || ""}`}
+                      className="icon"
+                    >
+                      <EditIcon />
+                    </Link>
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">Loading schedules...</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

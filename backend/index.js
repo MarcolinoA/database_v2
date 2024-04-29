@@ -13,8 +13,8 @@ app.use(cors()); //Usa il middleware cors per gestire le richieste CORS
 app.use(express.json());
 
 app.use("/users", userRoute);
-app.use("/schedules", scheduleInfoRoute);
-app.use("/exercises", exercisesRoute);
+//app.use("/schedules", scheduleInfoRoute);
+//app.use("/exercises", exercisesRoute);
 
 app.get("/", (request, response) => {
   console.log(request);

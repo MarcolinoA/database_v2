@@ -9,7 +9,7 @@ scheduleInfoRoute.post("/", async (request, response) => {
     if (
       !request.body.ID ||
       !request.body.name ||
-      !request.body.schedule ||
+      !request.body.data ||
       !request.body.status
     ) {
       return response.status(400).send({
@@ -19,7 +19,7 @@ scheduleInfoRoute.post("/", async (request, response) => {
     const newScheduleInfo = {
       ID: request.body.ID,
       name: request.body.name,
-      schedule: request.body.schedule,
+      data: request.body.data,
       status: request.body.status,
     };
 

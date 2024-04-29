@@ -1,3 +1,4 @@
+/*
 import mongoose from "mongoose";
 
 const scheduleInfoSchema = mongoose.Schema(
@@ -10,7 +11,7 @@ const scheduleInfoSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		schedule: {
+		data: {
 			type: String,
 			required: true,
 		},
@@ -25,3 +26,4 @@ const scheduleInfoSchema = mongoose.Schema(
 )
 
 export const ScheduleInfo = mongoose.model("ScheduleInfo", scheduleInfoSchema);
+*/
