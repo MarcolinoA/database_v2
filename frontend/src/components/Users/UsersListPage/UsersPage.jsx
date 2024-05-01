@@ -17,7 +17,11 @@ const UsersPage = () => {
     axios
       .get("http://localhost:5554/users")
       .then((response) => {
-        setUsers(response.data.data);
+        const usersWithIndex = response.data.data.map((user, index) => ({
+          ...user,
+          index: index + 1,
+        }));
+        setUsers(usersWithIndex);
         setLoading(false);
       })
       .catch((error) => {
@@ -62,7 +66,7 @@ const UsersPage = () => {
               <td className="user-page-column">{user.birth}</td>
               <td className="user-page-column">{user.gender}</td>
               <td className="user-page-column">
-                <Link to={`/users/${user._id}/schedules`} className="btn">
+                <Link to={`/users/${user._id}/schedules?username=${encodeURIComponent(user.name)}`} className="btn">
                   <InfoIcon />
                 </Link>
               </td>
