@@ -103,6 +103,7 @@ scheduleRoute.delete("/:id", async (request, response) => {
 export default scheduleRoute;
 */
 
+
 import express from 'express';
 import Schedule from '../models/scheduleModel.js';
 
@@ -160,3 +161,4 @@ router.delete("/:id", async (req, res) => {
 });
 
 export default router;
+

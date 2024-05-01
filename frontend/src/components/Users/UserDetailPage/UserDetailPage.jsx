@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "./UserDetailPageStyle.css";
-import LeftIcon from "../../../../../frontend_/src/icons/LeftIcon";
-import CreateIcon from "../../../../../frontend_/src/icons/CreateIcon";
-import ViewingIcon from "../../../../../frontend_/src/icons/ViewingIcon";
-import DeleteIcon from "../../../../../frontend_/src/icons/DeleteIcon";
-import EditIcon from "../../../../../frontend_/src/icons/EditIcon";
+import LeftIcon from "../../../icons/LeftIcon";
+import CreateIcon from "../../../icons/CreateIcon";
+import ViewingIcon from "../../../icons/ViewingIcon";
+import DeleteIcon from "../../../icons/DeleteIcon";
+import EditIcon from "../../../icons/EditIcon";
 
 const UserDetailPage = () => {
   const { userId } = useParams(); // Ottieni l'ID dell'utente dalla URL
@@ -14,23 +14,21 @@ const UserDetailPage = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    // Esegui la chiamata API per ottenere i dettagli dell'utente
-    axios
-      .get(`http://localhost:5554/users/${userId}`)
-      .then((response) => {
-        setUser(response.data); // Imposta lo stato dell'utente con i dati ottenuti
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(
-          "Errore durante il recupero dei dettagli dell'utente:",
-          error
-        );
-        setLoading(false);
-      });
-  }, [userId]); // Esegui l'effetto quando userId cambia
+useEffect(() => {
+  setLoading(true);
+  axios
+    .get(`http://localhost:5554/users/${userId}/schedules`)
+    .then((response) => {
+      const userData = response.data;
+      setUser(userData);
+      setSchedules(userData.data); // Aggiorna lo stato con i dati delle schede
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error("Errore durante il recupero dei dettagli dell'utente:", error);
+      setLoading(false);
+    });
+}, [userId]);
 
   return (
     <div className="users-page-container">
@@ -42,7 +40,7 @@ const UserDetailPage = () => {
           <h1 className="users-page-title">Nome</h1>
           <h4 className="user-page-id">{userId}</h4>
         </div>
-        <Link to="/create-schedule-page" className="icon">
+        <Link to={`/users/${userId}/schedules/create`} className="icon">
           <CreateIcon />
         </Link>
       </div>
@@ -68,10 +66,10 @@ const UserDetailPage = () => {
                 </td>
                 <td className="user-page-column">
                   <div className="icons-container">
-                    <Link to={"/"} className="icon">
+                    <Link to={`/users/${userId}/schedules/${schedule._id}/delete`} className="icon">
                       <DeleteIcon />
                     </Link>
-                    <Link to={"/"} className="icon">
+                    <Link to={`/users/${userId}/schedules/${schedule._id}/edit`} className="icon">
                       <EditIcon />
                     </Link>
                   </div>

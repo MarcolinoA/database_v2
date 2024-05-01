@@ -152,24 +152,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//ottieni le schede di un utente specifico
-router.get("/:userId/schedules", async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Trova le schede associate a questo utente
-    const schedules = await Schedule.find({ user: userId });
-    res.status(200).json({ count: schedules.length, data: schedules });
-  } catch (error) {
-    console.error('Errore durante il recupero delle schede dell\'utente:', error);
-    res.status(500).send({ message: 'Errore durante il recupero delle schede dell\'utente' });
-  }
-});
-
 //modifica i dati di un utente
 router.put("/:id", async (request, response) => {
   try {
@@ -206,6 +188,101 @@ router.delete("/:id/", async (request, response) => {
 
     return response.status(201).json({ message: "User deleted successfully" });
   } catch (error) {}
+});
+
+//Creazione nuova scheda
+router.post("/:userId/schedules", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { name, status, exercises } = req.body;
+
+    // Verifica che tutti i campi richiesti siano presenti nella richiesta
+    if (!name || !status || !exercises) {
+      return res.status(400).send({ message: "Invia tutti i campi richiesti: name, status, exercises" });
+    }
+
+    // Crea una nuova scheda nel database
+    const newSchedule = new Schedule({
+      name,
+      status,
+      exercises,
+      user: userId, // Associa la scheda all'utente corretto
+    });
+
+    // Salva la nuova scheda nel database
+    const savedSchedule = await newSchedule.save();
+
+    res.status(201).json({ message: "Scheda creata con successo", schedule: savedSchedule });
+  } catch (error) {
+    console.error("Errore durante la creazione della scheda:", error.message);
+    res.status(500).send({ message: "Errore durante la creazione della scheda" });
+  }
+});
+
+//ottieni le schede di un utente specifico
+router.get("/:userId/schedules", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Trova le schede associate a questo utente
+    const schedules = await Schedule.find({ user: userId });
+    res.status(200).json({ count: schedules.length, data: schedules });
+  } catch (error) {
+    console.error('Errore durante il recupero delle schede dell\'utente:', error);
+    res.status(500).send({ message: 'Errore durante il recupero delle schede dell\'utente' });
+  }
+});
+
+// Elimina una scheda di un utente
+router.delete("/:userId/schedules/:scheduleId", async (request, response) => {
+  try {
+    const { userId, scheduleId } = request.params;
+    // Utilizza un metodo per eliminare la scheda specifica
+    const result = await Schedule.findOneAndDelete({ _id: scheduleId, user: userId });
+    if (!result) {
+      return response.status(404).json({ message: "Schedule not found" });
+    }
+    return response.status(200).json({ message: "Schedule deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting schedule:", error);
+    return response.status(500).json({ message: "Error deleting schedule" });
+  }
+});
+
+router.put("/:userId/schedules/:scheduleId", async (request, response) => {
+  try {
+    const { userId, scheduleId } = request.params; // Ottieni userId e scheduleId dai parametri
+    const { name, status, exercises } = request.body; // Ottieni i dati dalla richiesta body
+
+    // Controlla che tutti i campi richiesti siano presenti
+    if (!name || !status || !exercises) {
+      return response.status(400).send({
+        message: "Send all required fields: name, status, exercises",
+      });
+    }
+
+    // Cerca e aggiorna la scheda corretta usando userId e scheduleId
+    const updatedSchedule = await Schedule.findByIdAndUpdate(
+      scheduleId,
+      { name, status, exercises },
+      { new: true } // Opzione per ottenere il documento aggiornato
+    );
+
+    // Controlla se la scheda è stata trovata ed aggiornata correttamente
+    if (!updatedSchedule) {
+      return response.status(404).json({ message: "Schedule not found" });
+    }
+
+    // Rispondi con successo e il documento aggiornato
+    return response.status(200).json({ message: "Schedule updated successfully", updatedSchedule });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
 });
 
 export default router;

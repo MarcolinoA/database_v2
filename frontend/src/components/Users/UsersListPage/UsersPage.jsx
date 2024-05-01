@@ -3,10 +3,10 @@ import axios from "axios";
 import "./UsersStyle.css";
 import InfoIcon from "../../../icons/InfoIcon";
 import { Link } from "react-router-dom";
-import DeleteIcon from "../../../../../frontend_/src/icons/DeleteIcon";
-import EditIcon from "../../../../../frontend_/src/icons/EditIcon";
 import LeftIcon from "../../../icons/LeftIcon";
-import CreateIcon from "../../../../../frontend_/src/icons/CreateIcon";
+import CreateIcon from "../../../icons/CreateIcon";
+import DeleteIcon from "../../../icons/DeleteIcon";
+import EditIcon from "../../../icons/EditIcon";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -62,7 +62,7 @@ const UsersPage = () => {
               <td className="user-page-column">{user.birth}</td>
               <td className="user-page-column">{user.gender}</td>
               <td className="user-page-column">
-                <Link to={`/users/${user._id}/cards`} className="btn">
+                <Link to={`/users/${user._id}/schedules`} className="btn">
                   <InfoIcon />
                 </Link>
               </td>

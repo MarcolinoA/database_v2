@@ -7,6 +7,10 @@ import UserDetailPage from "./components/Users/UserDetailPage/UserDetailPage";
 import UserDeletePage from "./components/Users/UserDeletePage/UserDeletePage";
 import UserEditPage from "./components/Users/UserEditPage/UserEditPage";
 import UserCreatePage from "./components/Users/UserCreatePage/UserCreatePage";
+import ScheduleDeletePage from "./components/Schedule/ScheduleDeletePage/ScheduleDeletePage";
+import ScheduleEditPage from "./components/Schedule/ScheduleEditPage/ScheduleEditPage";
+import ScheduleCreatePage from "./components/Schedule/ScheduleCreatePage/ScheduleCreatePage";
+import ScheduleViewPage from "./components/Schedule/ScheduleViewPage/ScheduleViewPage";
 
 function App() {
   return (
@@ -15,10 +19,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/users-page" element={<UsersPage />} />
-        <Route path="/users/:userId/cards" element={<UserDetailPage />} />
+        <Route path="/users/:userId/schedules" element={<UserDetailPage />} />
         <Route path="/users/:userId/delete" element={<UserDeletePage />} />
         <Route path="/users/:userId/edit" element={<UserEditPage />} />
         <Route path="/users/create" element={<UserCreatePage />} />
+
+        <Route path="/users/:userId/schedules/create" element={<ScheduleCreatePage />} />
+        <Route path="/users/:userId/schedules/:scheduleId/delete" element={<ScheduleDeletePage />} />
+        <Route path="/users/:userId/schedules/:scheduleId/edit" element={<ScheduleEditPage />} />
+        <Route path="/users/:userId/schedules/:scheduleId/view" element={<ScheduleViewPage />} />
       </Routes>
     </BrowserRouter>
   );
