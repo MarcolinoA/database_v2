@@ -9,6 +9,11 @@ const exerciseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  }
+  /*
   rep: {
     type: Number,
     required: true,
@@ -21,6 +26,7 @@ const exerciseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  */
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);

@@ -4,7 +4,7 @@ import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import userRoute from "./routes/userRoute.js";
 import scheduleRoute from "./routes/scheduleRoute.js";
-//import exercisesRoute from "./routes/exercisesRoute.js";
+import exercisesRoute from "./routes/exercisesRoute.js";
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use("/users", userRoute);
 app.use("/schedules", scheduleRoute);
-//app.use("/exercises", exercisesRoute);
+app.use("/exercises", exercisesRoute);
 
 app.get("/", (request, response) => {
   console.log(request);

@@ -11,6 +11,10 @@ import ScheduleDeletePage from "./components/Schedule/ScheduleDeletePage/Schedul
 import ScheduleEditPage from "./components/Schedule/ScheduleEditPage/ScheduleEditPage";
 import ScheduleCreatePage from "./components/Schedule/ScheduleCreatePage/ScheduleCreatePage";
 import ScheduleViewPage from "./components/Schedule/ScheduleViewPage/ScheduleViewPage";
+import ExercisesListPage from "./components/Exercises/ExercisesListPage/ExercisesListPage";
+import ExerciseDeletePage from "./components/Exercises/ExercisesDeletePage/ExerciseDeletePage";
+import ExerciseCreatePage from "./components/Exercises/ExercisesCreatePage/ExercisesCreatePage";
+import ExerciseEditPage from "./components/Exercises/ExerciseEditPage/ExerciseEditPage";
 
 function App() {
   return (
@@ -24,10 +28,27 @@ function App() {
         <Route path="/users/:userId/edit" element={<UserEditPage />} />
         <Route path="/users/create" element={<UserCreatePage />} />
 
-        <Route path="/users/:userId/schedules/create" element={<ScheduleCreatePage />} />
-        <Route path="/users/:userId/schedules/:scheduleId/delete" element={<ScheduleDeletePage />} />
-        <Route path="/users/:userId/schedules/:scheduleId/edit" element={<ScheduleEditPage />} />
-        <Route path="/users/:userId/schedules/:scheduleId/view" element={<ScheduleViewPage />} />
+        <Route
+          path="/users/:userId/schedules/create"
+          element={<ScheduleCreatePage />}
+        />
+        <Route
+          path="/users/:userId/schedules/:scheduleId/delete"
+          element={<ScheduleDeletePage />}
+        />
+        <Route
+          path="/users/:userId/schedules/:scheduleId/edit"
+          element={<ScheduleEditPage />}
+        />
+        <Route
+          path="/users/:userId/schedules/:scheduleId/view"
+          element={<ScheduleViewPage />}
+        />
+
+        <Route path="/exercises-list" element={<ExercisesListPage />} />
+        <Route path="/exercise/create" element={<ExerciseCreatePage />} />
+        <Route path="/exercises/:exerciseId/delete" element={<ExerciseDeletePage /> } />
+        <Route path="/exercises/:exerciseId/edit" element={<ExerciseEditPage /> } />
       </Routes>
     </BrowserRouter>
   );

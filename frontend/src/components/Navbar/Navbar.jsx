@@ -7,7 +7,7 @@ function Navbar() {
       <div className="nav-container">
         <ul className="nav-item">
           <li className="nav-items">
-            <NavLink exact to="/exercises" className={`nav-links`}>
+            <NavLink exact to="/exercises-list" className={`nav-links`}>
               Esercizi
             </NavLink>
           </li>

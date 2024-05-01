@@ -101,3 +101,81 @@ exerciseRoute.delete("/:id/", async (request, response) => {
 
 export default exerciseRoute;
 */
+
+import express from 'express';
+import Exercise from '../models/exercisesModel.js';
+
+const router = express.Router();
+
+// Aggiungi un nuovo utente
+router.post("/", async (req, res) => {
+  try {
+    const { name, group, image } = req.body;
+
+    const newExercise = new Exercise({
+      name,
+      group,
+      image
+    });
+
+    const savedExercise = await newExercise.save();
+
+    res.status(201).json(savedExercise);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+// Recupera tutti gli esercizi
+router.get("/", async (req, res) => {
+  try {
+    const exercises = await Exercise.find({});
+    res.status(200).send({
+      count: exercises.length,
+      data: exercises,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+// Elimina un utente
+router.delete("/:id/", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await Exercise.findByIdAndDelete(id);
+    if (!result) {
+      return response.status(404).json({ message: "User not found" });
+    }
+
+    return response.status(201).json({ message: "User deleted successfully" });
+  } catch (error) {}
+});
+
+//modifica i dati di una scheda
+router.put("/:id", async (request, response) => {
+  try {
+    if (
+      !request.body.name ||
+      !request.body.group ||
+      !request.body.image
+    ) {
+      return response.status(400).send({
+        message: "Send all required field: name, group, image",
+      });
+    }
+    const { id } = request.params;
+    const result = await Exercise.findByIdAndUpdate(id, request.body);
+    if (!result) {
+      return response.status(404).json({ message: "Exercise not found" });
+    }
+    return response.status(200).send({ message: "Exercise update successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+export default router;
