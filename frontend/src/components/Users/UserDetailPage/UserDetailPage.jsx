@@ -45,7 +45,8 @@ const UserDetailPage = () => {
           <LeftIcon />
         </Link>
         <div className="user-page-info">
-          <h1 className="users-page-title">{userName}</h1>
+          <h1 className="users-page-title">{userName
+          }</h1>
           <h4 className="user-page-id">{userId}</h4>
         </div>
         <Link to={`/users/${userId}/schedules/create`} className="icon">
