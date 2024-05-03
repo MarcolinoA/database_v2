@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./UsersStyle.css";
+import "./UsersListStyle.css";
 import InfoIcon from "../../../icons/InfoIcon";
 import { Link } from "react-router-dom";
 import LeftIcon from "../../../icons/LeftIcon";
@@ -8,7 +8,7 @@ import CreateIcon from "../../../icons/CreateIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 
-const UsersPage = () => {
+const UsersListPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -31,20 +31,20 @@ const UsersPage = () => {
   }, []);
 
   return (
-    <div className="users-page">
-      <div className="users-page-header">
-        <Link to="/" className="icon">
+    <div className="list-page">
+      <div className="list-header">
+        <Link to="/" className="icon" id="left-icon">
           <LeftIcon />
         </Link>
-        <div className="user-page-info">
-          <h1 className="users-page-title">Lista Utenti</h1>
+        <div>
+          <h1 className="list-title">Lista Utenti</h1>
         </div>
-        <Link to={`/users/create`} className="btn">
+        <Link to={`/users/create`} className="icon" id="create-icon">
           <CreateIcon />
         </Link>
       </div>
-      <table className="users-page-table">
-        <thead className="users-page-thead">
+      <table className="list-table">
+        <thead className="list-thead">
           <tr className="title-row">
             <th className="title-column">Num</th>
             <th className="title-column">ID</th>
@@ -58,25 +58,27 @@ const UsersPage = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user._id} className="user-page-row">
-              <td className="user-page-column">{user.index}</td>
-              <td className="user-page-column">{user._id}</td>
-              <td className="user-page-column">{user.name}</td>
-              <td className="user-page-column">{user.surname}</td>
-              <td className="user-page-column">{user.birth}</td>
-              <td className="user-page-column">{user.gender}</td>
-              <td className="user-page-column">
-                <Link to={`/users/${user._id}/schedules?username=${encodeURIComponent(user.name)}`} className="btn">
+            <tr key={user._id} className="info-row">
+              <td className="info-column">{user.index}</td>
+              <td className="info-column">{user._id}</td>
+              <td className="info-column">{user.name}</td>
+              <td className="info-column">{user.surname}</td>
+              <td className="info-column">{user.birth}</td>
+              <td className="info-column">{user.gender}</td>
+              <td className="info-column">
+                <Link to={`/users/${user._id}/schedules?username=${encodeURIComponent(user.name)}`} className="icon">
                   <InfoIcon />
                 </Link>
               </td>
-              <td className="user-page-column">
-                <Link to={`/users/${user._id}/delete`} className="btn">
-                  <DeleteIcon />
-                </Link>
-                <Link to={`/users/${user._id}/edit`} className="btn">
-                  <EditIcon />
-                </Link>
+              <td className="info-column">
+                <div className="options-column">
+                  <Link to={`/users/${user._id}/delete`} className="icon" id="options-icon">
+                    <DeleteIcon />
+                  </Link>
+                  <Link to={`/users/${user._id}/edit`} className="icon" id="options-icon">
+                    <EditIcon />
+                  </Link>
+                </div>
               </td>
             </tr>
           ))}
@@ -86,4 +88,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default UsersListPage;

@@ -36,12 +36,12 @@ const UserCreatePage = () => {
   };
 
   return (
-    <div className="create-schedule">
-      <div className="create-schedule-header">
-        <Link to="/" className="create-schedule-icon">
+    <div className="create-page">
+      <div className="create-header">
+        <Link to="/users-page/" className="icon" id="left-icon">
           <LeftIcon />
         </Link>
-        <h1 className="title">Create User</h1>
+        <h1 className="create-title">Create User</h1>
       </div>
       <div className="input-container">
         <div className="input-div">
@@ -88,7 +88,7 @@ const UserCreatePage = () => {
           />
         </div>
 
-        <button className="save-btn" onClick={handleSaveUser}>
+        <button className="create-btn" onClick={handleSaveUser}>
           Save
         </button>
       </div>

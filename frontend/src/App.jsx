@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
-import UsersPage from "./components/Users/UsersListPage/UsersPage";
+
 import UserDetailPage from "./components/Users/UserDetailPage/UserDetailPage";
 import UserDeletePage from "./components/Users/UserDeletePage/UserDeletePage";
 import UserEditPage from "./components/Users/UserEditPage/UserEditPage";
@@ -15,6 +15,7 @@ import ExercisesListPage from "./components/Exercises/ExercisesListPage/Exercise
 import ExerciseDeletePage from "./components/Exercises/ExercisesDeletePage/ExerciseDeletePage";
 import ExerciseCreatePage from "./components/Exercises/ExercisesCreatePage/ExercisesCreatePage";
 import ExerciseEditPage from "./components/Exercises/ExerciseEditPage/ExerciseEditPage";
+import UsersListPage from "./components/Users/UsersListPage/UsersListPage";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/users-page" element={<UsersPage />} />
+        <Route path="/users-page" element={<UsersListPage />} />
         <Route path="/users/:userId/schedules" element={<UserDetailPage />} />
         <Route path="/users/:userId/delete" element={<UserDeletePage />} />
         <Route path="/users/:userId/edit" element={<UserEditPage />} />

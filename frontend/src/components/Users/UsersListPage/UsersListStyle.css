@@ -1,0 +1,64 @@
+.icon {
+  color: #000;
+}
+
+.list-page{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  position: relative;
+}
+
+.list-header {
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#left-icon {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.list-title {
+  font-size: 40px;
+  margin: 10px;
+}
+
+#create-icon {
+  width: 40px;
+  margin-left: 10px;
+}
+
+.table {
+  width: 600px;
+}
+
+.title-row {
+  background-color: #ffb105;
+  font-size: 24px;
+}
+
+.title-column,
+.user-page-column {
+  padding: 10px;
+}
+
+.info-column {
+  font-size: 20px;
+}
+
+.options-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#options-icon {
+  margin: 5px;
+}
+
