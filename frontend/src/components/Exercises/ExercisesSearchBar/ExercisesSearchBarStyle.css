@@ -1,0 +1,26 @@
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-input {
+  position: relative;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 5px;
+  border-radius: 10px;
+  border: 2px solid #ffb105;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  color: #ffb105;
+  cursor: pointer;
+}

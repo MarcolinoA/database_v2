@@ -29,22 +29,10 @@ function App() {
         <Route path="/users/:userId/edit" element={<UserEditPage />} />
         <Route path="/users/create" element={<UserCreatePage />} />
 
-        <Route
-          path="/users/:userId/schedules/create"
-          element={<ScheduleCreatePage />}
-        />
-        <Route
-          path="/users/:userId/schedules/:scheduleId/delete"
-          element={<ScheduleDeletePage />}
-        />
-        <Route
-          path="/users/:userId/schedules/:scheduleId/edit"
-          element={<ScheduleEditPage />}
-        />
-        <Route
-          path="/users/:userId/schedules/:scheduleId/view"
-          element={<ScheduleViewPage />}
-        />
+        <Route path="/users/:userId/schedules/create" element={<ScheduleCreatePage />} />
+        <Route path="/users/:userId/schedules/:scheduleId/delete" element={<ScheduleDeletePage />} />
+        <Route path="/users/:userId/schedules/:scheduleId/edit" element={<ScheduleEditPage />} />
+        <Route path="/users/:userId/schedules/:scheduleId/view" element={<ScheduleViewPage />} />
 
         <Route path="/exercises-list" element={<ExercisesListPage />} />
         <Route path="/exercise/create" element={<ExerciseCreatePage />} />

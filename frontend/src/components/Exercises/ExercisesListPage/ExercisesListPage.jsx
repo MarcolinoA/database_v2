@@ -7,10 +7,12 @@ import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 import "./ExercisesListPageStyle.css";
 import MuscleGroupCarousel from "../MuscleGroupCarousel/MuscleGroupCarousel";
+import ExercisesSearchBar from "../ExercisesSearchBar/ExercisesSearchBar";
 
 const ExercisesListPage = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedExercises, setSelectedExercises] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -31,19 +33,31 @@ const ExercisesListPage = () => {
         setLoading(false);
       });
   }, []);
-  
+
+  const handleGroupSelect = (exercises) => {
+    setSelectedExercises(exercises);
+    setExercises(selectedExercises);
+  };
+
   return (
     <div className="view-exercises-page">
       <div className="view-exercises-header">
-        <Link to="/" className="icon">
+        <Link to="/" className="icon" id="left-icon-exercises-page">
           <LeftIcon />
         </Link>
-        <Link to={`/exercise/create`} className="btn">
+        <div className="search-bar-container">
+          <ExercisesSearchBar />
+        </div>
+        <Link
+          to={`/exercise/create`}
+          className="btn"
+          id="right-icon-exercises-page"
+        >
           <CreateIcon />
         </Link>
       </div>
-      <MuscleGroupCarousel />
-      <table className="users-page-table">
+      <MuscleGroupCarousel onGroupSelect={handleGroupSelect} />
+      <table className="exercises-page-table">
         <thead className="users-page-thead">
           <tr className="title-row">
             <th className="title-column">Num</th>

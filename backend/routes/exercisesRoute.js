@@ -210,4 +210,26 @@ router.get("/groups/:group", async (req, res) => {
   }
 });
 
+router.get("/names/:name", async (req, res) => {
+  const { name } = req.params;
+  if (!name) {
+    return res.status(400).send({ message: "Il nome dell'esercizio non è valido." });
+  }
+
+  try {
+    const exercises = await Exercise.find({ name });
+    if (exercises.length === 0) {
+      return res.status(404).send({ message: "Nessun esercizio trovato con il nome specificato." });
+    }
+    
+    res.status(200).send({
+      count: exercises.length,
+      data: exercises,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: "Errore durante il recupero degli esercizi con lo stesso nome." });
+  }
+});
+
 export default router;
