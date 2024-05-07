@@ -178,4 +178,36 @@ router.put("/:id", async (request, response) => {
   }
 });
 
+// Recupera tutti i gruppi muscolari
+router.get("/groups", async (req, res) => {
+  try {
+    const exercises = await Exercise.find({}); // Recupera tutti gli esercizi
+    const muscleGroups = exercises.map(exercise => exercise.group);
+    const uniqueMuscleGroups = [...new Set(muscleGroups)]; // Rimuovi duplicati
+    res.status(200).send({
+      count: uniqueMuscleGroups.length,
+      data: uniqueMuscleGroups,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+
+// Recupera gli esercizi per un gruppo muscolare specifico
+router.get("/groups/:group", async (req, res) => {
+  const { group } = req.params;
+  try {
+    const exercises = await Exercise.find({ group }); // Filtra gli esercizi per il gruppo muscolare specificato
+    res.status(200).send({
+      count: exercises.length,
+      data: exercises,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
 export default router;

@@ -6,6 +6,7 @@ import CreateIcon from "../../../icons/CreateIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 import "./ExercisesListPageStyle.css";
+import MuscleGroupCarousel from "../MuscleGroupCarousel/MuscleGroupCarousel";
 
 const ExercisesListPage = () => {
   const [exercises, setExercises] = useState([]);
@@ -24,7 +25,6 @@ const ExercisesListPage = () => {
         );
         setExercises(exercisesWithIndex);
         setLoading(false);
-        console.log(exercises);
       })
       .catch((error) => {
         console.log(error);
@@ -38,14 +38,11 @@ const ExercisesListPage = () => {
         <Link to="/" className="icon">
           <LeftIcon />
         </Link>
-        <div className="view-exercises-info">
-          <h1>Barra di ricerca</h1>
-          <h1>Carosello Gruppi Muscolari</h1>
-        </div>
         <Link to={`/exercise/create`} className="btn">
           <CreateIcon />
         </Link>
       </div>
+      <MuscleGroupCarousel />
       <table className="users-page-table">
         <thead className="users-page-thead">
           <tr className="title-row">

@@ -50,6 +50,7 @@ function App() {
         <Route path="/exercise/create" element={<ExerciseCreatePage />} />
         <Route path="/exercises/:exerciseId/delete" element={<ExerciseDeletePage /> } />
         <Route path="/exercises/:exerciseId/edit" element={<ExerciseEditPage /> } />
+        <Route path="/exercises/groups/:groupName" element={<ExerciseEditPage /> } />
       </Routes>
     </BrowserRouter>
   );

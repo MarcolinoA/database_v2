@@ -1,3 +1,10 @@
 .exercise-img {
   width: 100px;
 }
+
+.view-exercises-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
