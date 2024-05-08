@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { format } from "date-fns";
-import "./UserDetailPageStyle.css";
+import "./UserScheduleStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 import CreateIcon from "../../../icons/CreateIcon";
 import ViewingIcon from "../../../icons/ViewingIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 
-const UserDetailPage = () => {
+const UserSchedule = () => {
   const { userId } = useParams(); // Ottieni l'ID dell'utente dalla URL
   const [user, setUser] = useState(null);
   const [schedules, setSchedules] = useState([]);
@@ -45,8 +45,7 @@ const UserDetailPage = () => {
           <LeftIcon />
         </Link>
         <div className="user-page-info">
-          <h1 className="users-page-title">{userName
-          }</h1>
+          <h1 className="users-page-title">{userName}</h1>
           <h4 className="user-page-id">{userId}</h4>
         </div>
         <Link to={`/users/${userId}/schedules/create`} className="icon">
@@ -75,7 +74,7 @@ const UserDetailPage = () => {
                 </td>
                 <td className="user-page-column">{schedule.status || "N/A"}</td>
                 <td className="user-page-column">
-                  <Link to={`/`} className="icon">
+                  <Link to={`/users/${userId}/schedules/${schedule._id}/view?username=${encodeURIComponent(userName)}`} className="icon">
                     <ViewingIcon />
                   </Link>
                 </td>
@@ -108,4 +107,4 @@ const UserDetailPage = () => {
   );
 };
 
-export default UserDetailPage;
+export default UserSchedule;

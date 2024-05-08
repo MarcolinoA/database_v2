@@ -56,28 +56,28 @@ const MuscleGroupCarousel = ({ onGroupSelect }) => {
         className="mySwiper"
       >
         <SwiperSlide>
-          {groups.map((group) => (
-            <>
-              <div className="slide-container" key={group._id}>
-                <div className="slide-content">
-                  <div className="card-wrapper">
-                    <div className="image-content">
-                      <span className="overlay"></span>
-
-                      <div className="card-image">
-                        <BodyIcon />
-                      </div>
+          {groups.map((group, index) => (
+            <div className="slide-container" key={index}>
+              <div className="slide-content">
+                <div className="card-wrapper">
+                  <div className="image-content">
+                    <span className="overlay"></span>
+                    <div className="card-image">
+                      <BodyIcon />
                     </div>
-
-                    <div className="card-content">
-                      <h2 className="name">{group}</h2>
-
-                      <button className="carousel-btn" onClick={() => handleGroupClick(group)}>Visualizza</button>
-                    </div>
+                  </div>
+                  <div className="card-content">
+                    <h2 className="name">{group}</h2>
+                    <button
+                      className="carousel-btn"
+                      onClick={() => handleGroupClick(group)}
+                    >
+                      Visualizza
+                    </button>
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           ))}
         </SwiperSlide>
       </Swiper>

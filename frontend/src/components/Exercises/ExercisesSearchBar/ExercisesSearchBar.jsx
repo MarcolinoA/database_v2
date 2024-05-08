@@ -5,17 +5,33 @@ import axios from 'axios';
 
 const ExercisesSearchBar = ({ onSearch }) => {
   const [loading, setLoading] = useState(false);
-  const [exercises, setExercises] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchedExercise, setSearchedExercise] = useState(null);
+  const [exercises, setExercises] = useState([]);
+  const [searchedExercise, setSearchedExercise] = useState([]);
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5554/exercises")
+      .then((response) => {
+        console.log(response.data.data);
+        setExercises(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
+  
   const handleSearchClick = async (name) => {
     setLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:5554/exercises/names/${name}`
       );
-      setExercises(response.data.data);
+
+      console.log(response.data.data);
       setLoading(false);
       setSearchedExercise(response.data.data);
     } catch (error) {
@@ -32,7 +48,6 @@ const ExercisesSearchBar = ({ onSearch }) => {
     event.preventDefault();
     // Passa il termine di ricerca al genitore per la logica di ricerca
     onSearch(searchTerm.trim());
-    console.log(searchTerm);
   };
 
   return (

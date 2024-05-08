@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import "./UserDeletePageStyle.css";
+import "./UserDeleteStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
-const UserDeletePage = () => {
+const UserDelete = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -48,4 +48,4 @@ const UserDeletePage = () => {
   );
 };
 
-export default UserDeletePage;
+export default UserDelete;

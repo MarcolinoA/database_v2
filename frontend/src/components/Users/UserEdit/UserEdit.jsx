@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom"; // Aggiungi questa importazione
 import LeftIcon from "../../../icons/LeftIcon";
+import "./UserEditStyle.css"
 
-const UserEditPage = () => {
+const UserEdit = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [birth, setBirth] = useState("");
@@ -54,12 +55,12 @@ const UserEditPage = () => {
   };
 
   return (
-    <div className="create-schedule">
-      <div className="create-schedule-header">
-        <Link to="/users-page" className="create-schedule-icon">
+    <div className="edit-page">
+      <div className="edit-header">
+        <Link to="/users-page" className="icon" id="left-icon">
           <LeftIcon />
         </Link>
-        <h1 className="title">Edit User</h1>
+        <h1 className="edit-title">Edit User</h1>
       </div>
       <div className="input-container">
         <div className="input-div">
@@ -106,7 +107,7 @@ const UserEditPage = () => {
           />
         </div>
 
-        <button className="save-btn" onClick={handleSaveUser}>
+        <button className="edit-btn" onClick={handleSaveUser}>
           Save
         </button>
       </div>
@@ -114,4 +115,4 @@ const UserEditPage = () => {
   );
 };
 
-export default UserEditPage;
+export default UserEdit;

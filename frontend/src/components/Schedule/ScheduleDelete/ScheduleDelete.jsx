@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import "./ScheduleDeletePageStyle.css";
+import "./ScheduleDeleteStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
 
-const ScheduleDeletePage = () => {
+const ScheduleDelete = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { userId, scheduleId } = useParams();
@@ -49,4 +49,4 @@ const ScheduleDeletePage = () => {
   );
 };
 
-export default ScheduleDeletePage;
+export default ScheduleDelete;

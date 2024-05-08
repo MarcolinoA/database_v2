@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import LeftIcon from "../../../icons/LeftIcon";
 import CreateIcon from "../../../icons/CreateIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
-import "./ExercisesListPageStyle.css";
-import MuscleGroupCarousel from "../MuscleGroupCarousel/MuscleGroupCarousel";
-import ExercisesSearchBar from "../ExercisesSearchBar/ExercisesSearchBar";
+import "./ScheduleExercisesListStyle.css";
+import AddIcon from "../../../icons/AddIcon";
 
-const ExercisesListPage = () => {
+const ScheduleExercisesList = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedExercises, setSelectedExercises] = useState([]);
+  const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const exerciseId = queryParams.get("id");
 
   useEffect(() => {
     setLoading(true);
@@ -34,25 +37,13 @@ const ExercisesListPage = () => {
       });
   }, []);
 
-  const handleGroupSelect = (exercises) => {
-    setSelectedExercises(exercises);
-    setExercises(selectedExercises);
-  };
-
-  const handleSearchSelect = (exercises) => {
-    setSelectedExercises(exercises);
-    setExercises(selectedExercises);
-  };
-
   return (
     <div className="view-exercises-page">
       <div className="view-exercises-header">
         <Link to="/" className="icon" id="left-icon-exercises-page">
           <LeftIcon />
         </Link>
-        <div className="search-bar-container">
-          <ExercisesSearchBar onSearch={handleSearchSelect}/>
-        </div>
+        <h1>Aggiungi un esercizio</h1>
         <Link
           to={`/exercise/create`}
           className="btn"
@@ -61,7 +52,6 @@ const ExercisesListPage = () => {
           <CreateIcon />
         </Link>
       </div>
-      <MuscleGroupCarousel onGroupSelect={handleGroupSelect} />
       <table className="exercises-page-table">
         <thead className="users-page-thead">
           <tr className="title-row">
@@ -86,6 +76,9 @@ const ExercisesListPage = () => {
                 />
               </td>
               <td className="user-page-column">
+                <Link to={`/users/${userId}/schedules/${scheduleId}/view/?id=${encodeURIComponent(exerciseId)}`} className="btn">
+                  <AddIcon />
+                </Link>
                 <Link to={`/exercises/${exercise._id}/delete`} className="btn">
                   <DeleteIcon />
                 </Link>
@@ -101,4 +94,4 @@ const ExercisesListPage = () => {
   );
 };
 
-export default ExercisesListPage;
+export default ScheduleExercisesList;

@@ -8,7 +8,7 @@ import CreateIcon from "../../../icons/CreateIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 
-const UsersListPage = () => {
+const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -47,7 +47,6 @@ const UsersListPage = () => {
         <thead className="list-thead">
           <tr className="title-row">
             <th className="title-column">Num</th>
-            <th className="title-column">ID</th>
             <th className="title-column">Nome</th>
             <th className="title-column">Cognome</th>
             <th className="title-column">Data di nascita</th>
@@ -60,7 +59,6 @@ const UsersListPage = () => {
           {users.map((user) => (
             <tr key={user._id} className="info-row">
               <td className="info-column">{user.index}</td>
-              <td className="info-column">{user._id}</td>
               <td className="info-column">{user.name}</td>
               <td className="info-column">{user.surname}</td>
               <td className="info-column">{user.birth}</td>
@@ -88,4 +86,4 @@ const UsersListPage = () => {
   );
 };
 
-export default UsersListPage;
+export default UsersList;

@@ -1,0 +1,56 @@
+import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import DeleteIcon from "../../../icons/DeleteIcon";
+import EditIcon from "../../../icons/EditIcon";
+import "./ViewScheduleStyle.css";
+
+const ViewSchedule = () => {
+  const [exercises, setExercises] = useState([]);
+  const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
+
+  return (
+    <div className="list-page">
+      <div className="list-header">Header</div>
+      <table className="list-table">
+        <thead className="list-thead">
+          <tr className="title-row">
+            <th className="title-column">Num</th>
+            <th className="title-column">Nome</th>
+            <th className="title-column">Gruppo</th>
+            <th className="title-column">Equipment</th>
+            <th className="title-column">Rep x Serie</th>
+            <th className="title-column">Img</th>
+            <th className="title-column">Opzioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          {exercises.map((exercise) => (
+            <tr key={exercise._id} className="info-row">
+              <td className="info-column">{exercise.index}</td>
+              <td className="info-column">{exercise.name}</td>
+              <td className="info-column">{exercise.group}</td>
+              <td className="info-column">{exercise.equipment}</td>
+              <td className="info-column">{exercise.rep_serie}</td>
+              <td className="info-column">{exercise.img}</td>
+              <td className="info-column">
+                <div className="options-column">
+                  <Link to={`/`} className="icon">
+                    <DeleteIcon />
+                  </Link>
+                  <Link to={`/`} className="icon">
+                    <EditIcon />
+                  </Link>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Link to={`/users/${userId}/schedules/${scheduleId}/exerciseslist`}>
+        <button className="add-btn">Aggiungi un nuovo esercizio</button>
+      </Link>
+    </div>
+  );
+};
+
+export default ViewSchedule;

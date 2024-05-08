@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LeftIcon from "../../../icons/LeftIcon";
 
-const ScheduleCreatePage = () => {
+const ScheduleEdit = () => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [exercises, setExercises] = useState([]);
@@ -12,16 +12,34 @@ const ScheduleCreatePage = () => {
   const navigate = useNavigate();
   const { userId, scheduleId } = useParams();
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}`)
+      .then((response) => {
+        const scheduleData = response.data;
+        setName(scheduleData.name);
+        setStatus(scheduleData.status);
+        setExercises(scheduleData.exercises);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert("An error happened. Please check console");
+        console.log(error);
+      });
+  }, [userId, scheduleId]);
+
   const handleSaveSchedule = () => {
     const data = {
       name,
       status,
-      exercises, 
+      exercises, // Assicurati che exercises sia un array di esercizi
     };
 
     setLoading(true);
     axios
-      .post(`http://localhost:5554/users/${userId}/schedules`, data)
+      .put(`http://localhost:5554/users/${userId}/schedules/${scheduleId}`, data)
       .then(() => {
         setLoading(false);
         navigate(`/users/${userId}/schedules`);
@@ -39,7 +57,7 @@ const ScheduleCreatePage = () => {
         <Link to={`/users/${userId}/schedules`} className="create-schedule-icon">
           <LeftIcon />
         </Link>
-        <h1 className="title">Create Schedule</h1>
+        <h1 className="title">Edit Schedule</h1>
       </div>
       <div className="input-container">
         <div className="input-div">
@@ -82,4 +100,4 @@ const ScheduleCreatePage = () => {
   );
 };
 
-export default ScheduleCreatePage;
+export default ScheduleEdit;
