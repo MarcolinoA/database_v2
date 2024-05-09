@@ -11,7 +11,6 @@ const scheduleSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['In corso', 'Completata', 'Sospesa'],
     default: 'In corso',
   },
   exercises: [

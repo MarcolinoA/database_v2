@@ -1,12 +1,28 @@
-import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
+import axios from "axios";
 import "./ViewScheduleStyle.css";
 
 const ViewSchedule = () => {
   const [exercises, setExercises] = useState([]);
   const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises`)
+      .then((response) => {
+        setExercises(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching exercises:", error);
+        setLoading(false);
+      });
+  }, [userId, scheduleId]);
 
   return (
     <div className="list-page">

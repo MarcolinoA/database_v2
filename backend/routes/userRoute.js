@@ -99,6 +99,7 @@ export default router;
 import express from 'express';
 import User from "../models/userModel.js"; 
 import Schedule from '../models/scheduleModel.js';
+import Exercise from '../models/exercisesModel.js';
 
 const router = express.Router();
 
@@ -282,6 +283,67 @@ router.put("/:userId/schedules/:scheduleId", async (request, response) => {
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
+  }
+});
+
+// Recupera gli esercizi di una scheda di un utente specifico
+router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
+  try {
+    const { userId, scheduleId } = req.params;
+
+    // Controlla se l'utente e la scheda esistono
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const schedule = await Schedule.findById(scheduleId).populate('exercises');
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    // Recupera gli esercizi della scheda con tutte le informazioni
+    const exercises = schedule.exercises;
+    res.status(200).json({ count: exercises.length, data: exercises });
+  } catch (error) {
+    console.error('Errore durante il recupero degli esercizi della scheda:', error);
+    res.status(500).send({ message: 'Errore durante il recupero degli esercizi della scheda' });
+  }
+});
+
+
+// Aggiungi un esercizio alla scheda di un utente specifico
+router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
+  try {
+    const { userId, scheduleId, exerciseId } = req.params;
+
+    // Controlla se l'utente e la scheda esistono
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const schedule = await Schedule.findById(scheduleId);
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    // Recupera tutti i dati dell'esercizio
+    const exercise = await Exercise.findById(exerciseId);
+    if (!exercise) {
+      return res.status(404).json({ message: "Exercise not found" });
+    }
+
+    // Aggiungi l'esercizio alla scheda solo se non è già presente
+    if (!schedule.exercises.includes(exercise._id)) {
+      schedule.exercises.push(exercise);
+      await schedule.save();
+    }
+
+    res.status(200).json({ message: "Exercise added to schedule successfully" });
+  } catch (error) {
+    console.error('Errore durante l\'aggiunta dell\'esercizio alla scheda:', error);
+    res.status(500).send({ message: 'Errore durante l\'aggiunta dell\'esercizio alla scheda' });
   }
 });
 

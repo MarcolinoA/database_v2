@@ -104,10 +104,11 @@ export default exerciseRoute;
 
 import express from 'express';
 import Exercise from '../models/exercisesModel.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
-// Aggiungi un nuovo utente
+// Aggiungi un nuovo esercizio
 router.post("/", async (req, res) => {
   try {
     const { name, group, image } = req.body;
@@ -141,7 +142,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Elimina un utente
+// Elimina un esercizio
 router.delete("/:id/", async (request, response) => {
   try {
     const { id } = request.params;
@@ -154,7 +155,7 @@ router.delete("/:id/", async (request, response) => {
   } catch (error) {}
 });
 
-//modifica i dati di una scheda
+//modifica i dati di un esercizio
 router.put("/:id", async (request, response) => {
   try {
     if (
@@ -194,7 +195,6 @@ router.get("/groups", async (req, res) => {
   }
 });
 
-
 // Recupera gli esercizi per un gruppo muscolare specifico
 router.get("/groups/:group", async (req, res) => {
   const { group } = req.params;
@@ -210,6 +210,30 @@ router.get("/groups/:group", async (req, res) => {
   }
 });
 
+// Recupera gli esercizi per nome
+router.get("/names/:name", async (req, res) => {
+  const { name } = req.params;
+  if (!name) {
+    return res.status(400).send({ message: "Il nome dell'esercizio non è valido." });
+  }
+
+  try {
+    const exercises = await Exercise.find({ name });
+    if (exercises.length === 0) {
+      return res.status(404).send({ message: "Nessun esercizio trovato con il nome specificato." });
+    }
+    
+    res.status(200).send({
+      count: exercises.length,
+      data: exercises,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: "Errore durante il recupero degli esercizi con lo stesso nome." });
+  }
+});
+
+// Recupera gli esercizi per nome
 router.get("/names/:name", async (req, res) => {
   const { name } = req.params;
   if (!name) {

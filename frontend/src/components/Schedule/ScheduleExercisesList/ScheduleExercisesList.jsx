@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LeftIcon from "../../../icons/LeftIcon";
 import CreateIcon from "../../../icons/CreateIcon";
@@ -12,10 +12,10 @@ const ScheduleExercisesList = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(false);
   const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const exerciseId = queryParams.get("id");
+  const [name, setName] = useState("");
+  const [group, setGroup] = useState("");
+  const [image, setImage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -36,6 +36,34 @@ const ScheduleExercisesList = () => {
         setLoading(false);
       });
   }, []);
+
+  const onAddClick = (name, group, image, exerciseId) => {
+    setName(name);
+    setGroup(group);
+    setImage(image);
+
+    const data = {
+      name,
+      group,
+      image,
+    };
+
+    setLoading(true);
+    axios
+      .post(
+        `http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${exerciseId}`,
+        data
+      )
+      .then(() => {
+        setLoading(false);
+        navigate(`/users/${userId}/schedules/${scheduleId}/view`);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert("An error happened. Please check console");
+        console.log(error);
+      });
+  };
 
   return (
     <div className="view-exercises-page">
@@ -63,9 +91,9 @@ const ScheduleExercisesList = () => {
           </tr>
         </thead>
         <tbody>
-          {exercises.map((exercise) => (
+          {exercises.map((exercise, index) => (
             <tr key={exercise._id} className="user-page-row">
-              <td className="user-page-column">{exercise.index}</td>
+              <td className="user-page-column">{index + 1}</td>
               <td className="user-page-column">{exercise.name}</td>
               <td className="user-page-column">{exercise.group}</td>
               <td className="user-page-column">
@@ -76,9 +104,15 @@ const ScheduleExercisesList = () => {
                 />
               </td>
               <td className="user-page-column">
-                <Link to={`/users/${userId}/schedules/${scheduleId}/view/?id=${encodeURIComponent(exerciseId)}`} className="btn">
+                <button
+                  className="btn"
+                  onClick={(e) => {
+                    e.preventDefault(); // Evita la navigazione
+                    onAddClick(exercise.name, exercise.group, exercise.image, exercise._id);
+                  }}
+                >
                   <AddIcon />
-                </Link>
+                </button>
                 <Link to={`/exercises/${exercise._id}/delete`} className="btn">
                   <DeleteIcon />
                 </Link>
