@@ -347,4 +347,37 @@ router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, 
   }
 });
 
+router.delete("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
+  try {
+    const { userId, scheduleId, exerciseId } = req.params;
+
+    // Controlla se l'utente esiste
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Controlla se la scheda esiste
+    const schedule = await Schedule.findById(scheduleId);
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    // Controlla se l'esercizio esiste nella scheda dell'utente
+    const exerciseIndex = schedule.exercises.indexOf(exerciseId);
+    if (exerciseIndex === -1) {
+      return res.status(404).json({ message: "Exercise not found in this schedule" });
+    }
+
+    // Rimuovi l'esercizio dalla scheda
+    schedule.exercises.splice(exerciseIndex, 1);
+    await schedule.save();
+
+    res.status(200).json({ message: "Exercise removed from schedule successfully" });
+  } catch (error) {
+    console.error('Errore durante la rimozione dell\'esercizio dalla scheda:', error);
+    res.status(500).json({ message: 'Errore durante la rimozione dell\'esercizio dalla scheda' });
+  }
+});
+
 export default router;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import DeleteIcon from "../../../icons/DeleteIcon";
-import EditIcon from "../../../icons/EditIcon";
+import DeleteIcon from "../../../../icons/DeleteIcon";
+import EditIcon from "../../../../icons/EditIcon";
 import axios from "axios";
 import "./ViewScheduleStyle.css";
 
@@ -47,10 +47,12 @@ const ViewSchedule = () => {
               <td className="info-column">{exercise.group}</td>
               <td className="info-column">{exercise.equipment}</td>
               <td className="info-column">{exercise.rep_serie}</td>
-              <td className="info-column">{exercise.img}</td>
+              <td className="info-column">
+                <img src={exercise.image} alt="" className="exercise-img"/>
+              </td>
               <td className="info-column">
                 <div className="options-column">
-                  <Link to={`/`} className="icon">
+                  <Link to={`/users/${userId}/schedules/${scheduleId}/exercises/${exercise._id}/delete`} className="icon">
                     <DeleteIcon />
                   </Link>
                   <Link to={`/`} className="icon">

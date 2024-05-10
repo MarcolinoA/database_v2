@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import LeftIcon from "../../../icons/LeftIcon";
-import CreateIcon from "../../../icons/CreateIcon";
-import DeleteIcon from "../../../icons/DeleteIcon";
-import EditIcon from "../../../icons/EditIcon";
+import LeftIcon from "../../../../icons/LeftIcon";
+import CreateIcon from "../../../../icons/CreateIcon";
+import DeleteIcon from "../../../../icons/DeleteIcon";
+import EditIcon from "../../../../icons/EditIcon";
 import "./ScheduleExercisesListStyle.css";
-import AddIcon from "../../../icons/AddIcon";
+import AddIcon from "../../../../icons/AddIcon";
 
 const ScheduleExercisesList = () => {
   const [exercises, setExercises] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState(null);
   const [loading, setLoading] = useState(false);
   const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
   const [name, setName] = useState("");
   const [group, setGroup] = useState("");
   const [image, setImage] = useState("");
+  const [series, setSeries] = useState("");
+  const [rep, setRep] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,15 +40,19 @@ const ScheduleExercisesList = () => {
       });
   }, []);
 
-  const onAddClick = (name, group, image, exerciseId) => {
+  const onAddClick = (name, group, image, exerciseId, series, rep) => {
     setName(name);
     setGroup(group);
     setImage(image);
+    setSeries(series);
+    setRep(rep);
 
     const data = {
       name,
       group,
       image,
+      series,
+      rep
     };
 
     setLoading(true);
@@ -65,10 +72,17 @@ const ScheduleExercisesList = () => {
       });
   };
 
+  const openAddDialog = () => {
+    setSelectedExercise(exercises);
+    // Reset series and repetitions
+    setSeries("");
+    setRep("");
+  }
+
   return (
     <div className="view-exercises-page">
       <div className="view-exercises-header">
-        <Link to="/" className="icon" id="left-icon-exercises-page">
+        <Link to={`/users/${userId}/schedules/${scheduleId}/view`} className="icon" id="left-icon-exercises-page">
           <LeftIcon />
         </Link>
         <h1>Aggiungi un esercizio</h1>
@@ -106,10 +120,7 @@ const ScheduleExercisesList = () => {
               <td className="user-page-column">
                 <button
                   className="btn"
-                  onClick={(e) => {
-                    e.preventDefault(); // Evita la navigazione
-                    onAddClick(exercise.name, exercise.group, exercise.image, exercise._id);
-                  }}
+                  onClick={() => openAddDialog(exercise)}
                 >
                   <AddIcon />
                 </button>
@@ -124,6 +135,29 @@ const ScheduleExercisesList = () => {
           ))}
         </tbody>
       </table>
+
+      {selectedExercise && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Aggiungi serie e ripetizioni per {selectedExercise.name}</h3>
+            <input
+              type="input"
+              value={series}
+              onChange={(e) => setSeries(e.target.value)}
+              placeholder="Serie"
+            />
+            <input
+              type="input"
+              value={rep}
+              onChange={(e) => setRep(e.target.value)}
+              placeholder="Ripetizioni"
+            />
+            <button className="btn" onClick={onAddClick}>
+              Aggiungi
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
