@@ -9,24 +9,14 @@ const exerciseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  equipment: {
+    type: String,
+    required: false,
+  },
   image: {
     type: String,
     required: true,
-  }
-  /*
-  rep: {
-    type: Number,
-    required: true,
   },
-  series: {
-    type: Number,
-    required: true,
-  },
-  break: {
-    type: Number,
-    required: true,
-  },
-  */
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);

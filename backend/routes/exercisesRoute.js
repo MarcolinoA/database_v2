@@ -1,121 +1,17 @@
-/*
-import express from "express";
-import { Exercises } from "../models/exercisesModel.js"; 
-
-const exerciseRoute = express.Router();
-
-//add new exercise
-exerciseRoute.post("/", async (request, response) => {
-  try {
-    if (
-      !request.body.name ||
-      !request.body.group ||
-      !request.body.desc ||
-      !request.body.img
-    ) {
-      return response.status(400).send({
-        message: "Send all required fields: name, group, desc, img",
-      });
-    }
-    const newExercise = {
-      name: request.body.name,
-      group: request.body.group,
-      desc: request.body.desc,
-      img: request.body.img,
-    };
-
-    const exercises = await Exercises.create(newExercise);
-
-    return response.status(201).send(exercises);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//get all users
-exerciseRoute.get("/", async (request, response) => {
-  try {
-    const exercises = await Exercises.find({});
-
-    return response.status(200).send({
-      count: exercises.length,
-      data: exercises,
-    });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//get a user
-exerciseRoute.get("/:id", async (request, response) => {
-  try {
-    const { id } = request.params;
-    const exercise = await Exercises.findById(id);
-
-    return response.status(200).send(exercise);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//update a user
-exerciseRoute.put("/:id", async (request, response) => {
-  try {
-    if (
-      !request.body.name ||
-      !request.body.group ||
-      !request.body.desc ||
-      !request.body.img
-    ) {
-      return response.status(400).send({
-        message: "Send all required field: index, name, surname, birth, gender",
-      });
-    }
-    const { id } = request.params;
-    const result = await Exercises.findByIdAndUpdate(id, request.body);
-    if (!result) {
-      return response.status(404).json({ message: "User not found" });
-    }
-    return response.status(200).send({ message: "User update successfully" });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//delete user
-exerciseRoute.delete("/:id/", async (request, response) => {
-  try {
-    const { id } = request.params;
-    const result = await Exercises.findByIdAndDelete(id);
-    if (!result) {
-      return response.status(404).json({ message: "User not found" });
-    }
-
-    return response.status(201).json({ message: "User deleted successfully" });
-  } catch (error) {}
-});
-
-export default exerciseRoute;
-*/
-
 import express from 'express';
 import Exercise from '../models/exercisesModel.js';
-import mongoose from 'mongoose';
 
 const router = express.Router();
 
 // Aggiungi un nuovo esercizio
 router.post("/", async (req, res) => {
   try {
-    const { name, group, image } = req.body;
+    const { name, group, equipment, image } = req.body;
 
     const newExercise = new Exercise({
       name,
       group,
+      equipment,
       image
     });
 
@@ -148,10 +44,10 @@ router.delete("/:id/", async (request, response) => {
     const { id } = request.params;
     const result = await Exercise.findByIdAndDelete(id);
     if (!result) {
-      return response.status(404).json({ message: "User not found" });
+      return response.status(404).json({ message: "Exercise not found" });
     }
 
-    return response.status(201).json({ message: "User deleted successfully" });
+    return response.status(201).json({ message: "Exercise deleted successfully" });
   } catch (error) {}
 });
 
@@ -161,6 +57,7 @@ router.put("/:id", async (request, response) => {
     if (
       !request.body.name ||
       !request.body.group ||
+      !request.body.equipment ||
       !request.body.image
     ) {
       return response.status(400).send({
@@ -210,6 +107,7 @@ router.get("/groups/:group", async (req, res) => {
   }
 });
 
+/*
 // Recupera gli esercizi per nome
 router.get("/names/:name", async (req, res) => {
   const { name } = req.params;
@@ -255,5 +153,6 @@ router.get("/names/:name", async (req, res) => {
     res.status(500).send({ message: "Errore durante il recupero degli esercizi con lo stesso nome." });
   }
 });
+*/
 
 export default router;

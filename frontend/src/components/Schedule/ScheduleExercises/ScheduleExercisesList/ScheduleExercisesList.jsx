@@ -12,12 +12,9 @@ const ScheduleExercisesList = () => {
   const [exercises, setExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
-  const [name, setName] = useState("");
-  const [group, setGroup] = useState("");
-  const [image, setImage] = useState("");
-  const [series, setSeries] = useState("");
-  const [rep, setRep] = useState("");
+  const { userId, scheduleId } = useParams();
+  const [series, setSeries] = useState(""); // Inizializza a stringa vuota
+  const [rep, setRep] = useState(""); // Inizializza a stringa vuota
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,13 +37,17 @@ const ScheduleExercisesList = () => {
       });
   }, []);
 
-  const onAddClick = (name, group, image, exerciseId, series, rep) => {
-    setName(name);
-    setGroup(group);
-    setImage(image);
-    setSeries(series);
-    setRep(rep);
+  const openAddDialog = (exercise) => {
+    setSelectedExercise(exercise);
+    // Resetta series e rep a stringa vuota quando si apre il dialog
+    setSeries(""); 
+    setRep("");
+  };
 
+  const onAddClick = () => {
+    if (!selectedExercise) return; // Assicurati che selectedExercise sia definito
+
+    const { name, group, image, _id: exerciseId } = selectedExercise; // Destruttura selectedExercise
     const data = {
       name,
       group,
@@ -72,25 +73,18 @@ const ScheduleExercisesList = () => {
       });
   };
 
-  const openAddDialog = () => {
-    setSelectedExercise(exercises);
-    // Reset series and repetitions
-    setSeries("");
-    setRep("");
-  }
-
   return (
     <div className="view-exercises-page">
       <div className="view-exercises-header">
-        <Link to={`/users/${userId}/schedules/${scheduleId}/view`} className="icon" id="left-icon-exercises-page">
+        <Link
+          to={`/users/${userId}/schedules/${scheduleId}/view`}
+          className="icon"
+          id="left-icon-exercises-page"
+        >
           <LeftIcon />
         </Link>
         <h1>Aggiungi un esercizio</h1>
-        <Link
-          to={`/exercise/create`}
-          className="btn"
-          id="right-icon-exercises-page"
-        >
+        <Link to={`/exercise/create`} className="btn" id="right-icon-exercises-page">
           <CreateIcon />
         </Link>
       </div>
@@ -118,10 +112,7 @@ const ScheduleExercisesList = () => {
                 />
               </td>
               <td className="user-page-column">
-                <button
-                  className="btn"
-                  onClick={() => openAddDialog(exercise)}
-                >
+                <button className="btn" onClick={() => openAddDialog(exercise)}>
                   <AddIcon />
                 </button>
                 <Link to={`/exercises/${exercise._id}/delete`} className="btn">
@@ -141,13 +132,13 @@ const ScheduleExercisesList = () => {
           <div className="modal-content">
             <h3>Aggiungi serie e ripetizioni per {selectedExercise.name}</h3>
             <input
-              type="input"
+              type="text"
               value={series}
               onChange={(e) => setSeries(e.target.value)}
               placeholder="Serie"
             />
             <input
-              type="input"
+              type="text"
               value={rep}
               onChange={(e) => setRep(e.target.value)}
               placeholder="Ripetizioni"

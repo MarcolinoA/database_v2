@@ -1,107 +1,12 @@
-/*
-
-import express from "express";
-import { User } from "../models/userModel.js";
-
-const router = express.Router();
-
-//add new user
-router.get("/:id", async (request, response) => {
-  try {
-    const { id } = request.params;
-    const user = await User.findById(id).populate("schedules"); // Popola i dati delle schede
-
-    if (!user) {
-      return response.status(404).json({ message: "User not found" });
-    }
-
-    return response.status(200).send(user);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//get all users
-router.get("/", async (request, response) => {
-  try {
-    const users = await User.find({});
-
-    return response.status(200).send({
-      count: users.length,
-      data: users,
-    });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//get a user
-router.get("/:id", async (request, response) => {
-  try {
-    const { id } = request.params;
-    const user = await User.findById(id);
-
-    if (!user) {
-      return response.status(404).json({ message: "User not found" });
-    }
-
-    return response.status(200).send(user);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//update a user
-router.put("/:id", async (request, response) => {
-  try {
-    if (
-      !request.body.index ||
-      !request.body.name ||
-      !request.body.surname ||
-      !request.body.birth ||
-      !request.body.gender
-    ) {
-      return response.status(400).send({
-        message: "Send all required field: index, name, surname, birth, gender",
-      });
-    }
-    const { id } = request.params;
-    const result = await User.findByIdAndUpdate(id, request.body);
-    if (!result) {
-      return response.status(404).json({ message: "User not found" });
-    }
-    return response.status(200).send({ message: "User update successfully" });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//delete user
-router.delete("/:id/", async (request, response) => {
-  try {
-    const { id } = request.params;
-    const result = await User.findByIdAndDelete(id);
-    if (!result) {
-      return response.status(404).json({ message: "User not found" });
-    }
-
-    return response.status(201).json({ message: "User deleted successfully" });
-  } catch (error) {}
-});
-
-export default router;
-*/
-
 import express from 'express';
 import User from "../models/userModel.js"; 
 import Schedule from '../models/scheduleModel.js';
 import Exercise from '../models/exercisesModel.js';
+import ScheduleExercise from '../models/scheduleExercises.js';
 
 const router = express.Router();
+
+/* ROUTE UTENTI */
 
 // Aggiungi un nuovo utente
 router.post("/", async (req, res) => {
@@ -191,7 +96,9 @@ router.delete("/:id/", async (request, response) => {
   } catch (error) {}
 });
 
-//Creazione nuova scheda
+/* ROUTE SCHEDE DI UN UTENTE */
+
+//Crea una nuova scheda per un utente
 router.post("/:userId/schedules", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -220,7 +127,7 @@ router.post("/:userId/schedules", async (req, res) => {
   }
 });
 
-//ottieni le schede di un utente specifico
+//stampa le schede di un utente specifico
 router.get("/:userId/schedules", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -254,6 +161,7 @@ router.delete("/:userId/schedules/:scheduleId", async (request, response) => {
   }
 });
 
+// modifica una scheda di un utente
 router.put("/:userId/schedules/:scheduleId", async (request, response) => {
   try {
     const { userId, scheduleId } = request.params; // Ottieni userId e scheduleId dai parametri
@@ -286,6 +194,8 @@ router.put("/:userId/schedules/:scheduleId", async (request, response) => {
   }
 });
 
+/* ROUTE ESERCICIZI DI UNA SCHEDA DI UN UTENTE */
+
 // Recupera gli esercizi di una scheda di un utente specifico
 router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
   try {
@@ -311,36 +221,47 @@ router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
   }
 });
 
-
 // Aggiungi un esercizio alla scheda di un utente specifico
 router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
+    const { series, rep } = req.body; // Dati aggiuntivi per l'esercizio
 
-    // Controlla se l'utente e la scheda esistono
+    // Controlla se l'utente esiste
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Controlla se la scheda esiste
     const schedule = await Schedule.findById(scheduleId);
     if (!schedule) {
       return res.status(404).json({ message: "Schedule not found" });
     }
 
-    // Recupera tutti i dati dell'esercizio
+    // Controlla se l'esercizio esiste
     const exercise = await Exercise.findById(exerciseId);
     if (!exercise) {
       return res.status(404).json({ message: "Exercise not found" });
     }
 
+    // Crea un nuovo esercizio per la scheda
+    const newScheduleExercise = new ScheduleExercise({
+      name: exercise.name,
+      group: exercise.group,
+      image: exercise.image,
+      equipment: exercise.equipment,
+      rep: rep,
+      series: series,
+    });
+
     // Aggiungi l'esercizio alla scheda solo se non è già presente
-    if (!schedule.exercises.includes(exercise._id)) {
-      schedule.exercises.push(exercise);
+    if (!schedule.exercises.includes(newScheduleExercise._id)) {
+      schedule.exercises.push(newScheduleExercise);
       await schedule.save();
     }
 
-    res.status(200).json({ message: "Exercise added to schedule successfully" });
+    res.status(200).json({ message: "Exercise added to schedule successfully", data: newScheduleExercise });
   } catch (error) {
     console.error('Errore durante l\'aggiunta dell\'esercizio alla scheda:', error);
     res.status(500).send({ message: 'Errore durante l\'aggiunta dell\'esercizio alla scheda' });

@@ -46,7 +46,7 @@ const ViewSchedule = () => {
               <td className="info-column">{exercise.name}</td>
               <td className="info-column">{exercise.group}</td>
               <td className="info-column">{exercise.equipment}</td>
-              <td className="info-column">{exercise.rep_serie}</td>
+              <td className="info-column">{exercise.series} x {exercise.rep}</td>
               <td className="info-column">
                 <img src={exercise.image} alt="" className="exercise-img"/>
               </td>
