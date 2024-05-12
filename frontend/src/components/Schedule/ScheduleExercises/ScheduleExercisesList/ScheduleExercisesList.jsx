@@ -13,8 +13,9 @@ const ScheduleExercisesList = () => {
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [loading, setLoading] = useState(false);
   const { userId, scheduleId } = useParams();
-  const [series, setSeries] = useState(""); // Inizializza a stringa vuota
-  const [rep, setRep] = useState(""); // Inizializza a stringa vuota
+  const [series, setSeries] = useState(""); 
+  const [rep, setRep] = useState(""); 
+  const [day, setDay] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,9 +40,9 @@ const ScheduleExercisesList = () => {
 
   const openAddDialog = (exercise) => {
     setSelectedExercise(exercise);
-    // Resetta series e rep a stringa vuota quando si apre il dialog
     setSeries(""); 
     setRep("");
+    setDay("");
   };
 
   const onAddClick = () => {
@@ -53,7 +54,8 @@ const ScheduleExercisesList = () => {
       group,
       image,
       series,
-      rep
+      rep,
+      day
     };
 
     setLoading(true);
@@ -130,7 +132,13 @@ const ScheduleExercisesList = () => {
       {selectedExercise && (
         <div className="modal">
           <div className="modal-content">
-            <h3>Aggiungi serie e ripetizioni per {selectedExercise.name}</h3>
+            <h3>Aggiungi giorno serie e ripetizioni per {selectedExercise.name}</h3>
+            <input
+              type="text"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+              placeholder="Giorno"
+            />
             <input
               type="text"
               value={series}

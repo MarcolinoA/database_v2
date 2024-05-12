@@ -200,7 +200,7 @@ router.put("/:userId/schedules/:scheduleId", async (request, response) => {
 router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
-    const { series, rep } = req.body; // Dati aggiuntivi per l'esercizio
+    const { series, rep, day } = req.body; // Dati aggiuntivi per l'esercizio
 
     // Controlla se la scheda esiste
     const schedule = await Schedule.findById(scheduleId);
@@ -222,6 +222,7 @@ router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, 
       equipment: exercise.equipment,
       rep: rep,
       series: series,
+      day: day
     });
 
     // Salva il nuovo esercizio
@@ -305,7 +306,7 @@ router.get("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, r
 router.put("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
-    const { rep, series } = req.body;
+    const { rep, series, day } = req.body;
 
     // Controlla se l'utente esiste
     const user = await User.findById(userId);
@@ -328,6 +329,7 @@ router.put("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, r
     // Aggiorna i campi rep e series dell'esercizio
     exercise.rep = rep;
     exercise.series = series;
+    exercise.day = day;
     await exercise.save();
 
     res.status(200).json({ message: "Exercise updated successfully", data: exercise });

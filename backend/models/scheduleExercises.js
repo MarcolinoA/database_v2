@@ -25,6 +25,10 @@ const scheduleExerciseSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  day: {
+    type: String,
+    required: false,
+  }
 });
 
 const ScheduleExercise = mongoose.model('ScheduleExercise', scheduleExerciseSchema);
