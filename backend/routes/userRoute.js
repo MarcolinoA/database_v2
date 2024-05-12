@@ -196,42 +196,11 @@ router.put("/:userId/schedules/:scheduleId", async (request, response) => {
 
 /* ROUTE ESERCICIZI DI UNA SCHEDA DI UN UTENTE */
 
-// Recupera gli esercizi di una scheda di un utente specifico
-router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
-  try {
-    const { userId, scheduleId } = req.params;
-
-    // Controlla se l'utente e la scheda esistono
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const schedule = await Schedule.findById(scheduleId).populate('exercises');
-    if (!schedule) {
-      return res.status(404).json({ message: "Schedule not found" });
-    }
-
-    // Recupera gli esercizi della scheda con tutte le informazioni
-    const exercises = schedule.exercises;
-    res.status(200).json({ count: exercises.length, data: exercises });
-  } catch (error) {
-    console.error('Errore durante il recupero degli esercizi della scheda:', error);
-    res.status(500).send({ message: 'Errore durante il recupero degli esercizi della scheda' });
-  }
-});
-
 // Aggiungi un esercizio alla scheda di un utente specifico
 router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
     const { series, rep } = req.body; // Dati aggiuntivi per l'esercizio
-
-    // Controlla se l'utente esiste
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
 
     // Controlla se la scheda esiste
     const schedule = await Schedule.findById(scheduleId);
@@ -255,9 +224,12 @@ router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, 
       series: series,
     });
 
+    // Salva il nuovo esercizio
+    await newScheduleExercise.save();
+
     // Aggiungi l'esercizio alla scheda solo se non è già presente
     if (!schedule.exercises.includes(newScheduleExercise._id)) {
-      schedule.exercises.push(newScheduleExercise);
+      schedule.exercises.push(newScheduleExercise._id);
       await schedule.save();
     }
 
@@ -265,6 +237,103 @@ router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, 
   } catch (error) {
     console.error('Errore durante l\'aggiunta dell\'esercizio alla scheda:', error);
     res.status(500).send({ message: 'Errore durante l\'aggiunta dell\'esercizio alla scheda' });
+  }
+});
+
+// Recupera gli esercizi specifici di una scheda di un utente specifico
+router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
+  try {
+    const { userId, scheduleId } = req.params;
+
+    // Controlla se l'utente esiste
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Controlla se la scheda esiste per questo utente
+    const schedule = await Schedule.findOne({ _id: scheduleId, user: userId });
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found for this user" });
+    }
+
+    // Trova gli esercizi associati a questa scheda
+    const exercises = await ScheduleExercise.find({ _id: { $in: schedule.exercises } });
+    if (!exercises || exercises.length === 0) {
+      return res.status(404).json({ message: "Exercises not found for this schedule" });
+    }
+
+    res.status(200).json({ count: exercises.length, data: exercises });
+  } catch (error) {
+    console.error('Errore durante il recupero degli esercizi della scheda:', error);
+    res.status(500).json({ message: 'Errore durante il recupero degli esercizi della scheda' });
+  }
+});
+
+
+// Recupera un singolo esercizio specifico di una scheda di un utente
+router.get("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
+  try {
+    const { userId, scheduleId, exerciseId } = req.params;
+
+    // Controlla se l'utente esiste
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Controlla se la scheda esiste per questo utente
+    const schedule = await Schedule.findOne({ _id: scheduleId, user: userId });
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found for this user" });
+    }
+
+    // Trova l'esercizio specifico nella scheda
+    const exercise = await ScheduleExercise.findOne({ _id: exerciseId, _id: { $in: schedule.exercises } });
+    if (!exercise) {
+      return res.status(404).json({ message: "Exercise not found for this schedule" });
+    }
+
+    res.status(200).json({ data: exercise });
+  } catch (error) {
+    console.error('Errore durante il recupero dell\'esercizio della scheda:', error);
+    res.status(500).json({ message: 'Errore durante il recupero dell\'esercizio della scheda' });
+  }
+});
+
+// Modifica rep e series di un esercizio specifico
+router.put("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
+  try {
+    const { userId, scheduleId, exerciseId } = req.params;
+    const { rep, series } = req.body;
+
+    // Controlla se l'utente esiste
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Controlla se la scheda esiste per questo utente
+    const schedule = await Schedule.findOne({ _id: scheduleId, user: userId });
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found for this user" });
+    }
+
+    // Trova l'esercizio da modificare nella scheda
+    const exercise = await ScheduleExercise.findById(exerciseId);
+    if (!exercise) {
+      return res.status(404).json({ message: "Exercise not found" });
+    }
+
+    // Aggiorna i campi rep e series dell'esercizio
+    exercise.rep = rep;
+    exercise.series = series;
+    await exercise.save();
+
+    res.status(200).json({ message: "Exercise updated successfully", data: exercise });
+  } catch (error) {
+    console.error('Errore durante la modifica dell\'esercizio:', error);
+    res.status(500).json({ message: 'Errore durante la modifica dell\'esercizio' });
   }
 });
 

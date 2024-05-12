@@ -40,6 +40,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+//stampa una scheda
+router.get("/:id", async (req, res) => {
+  try {
+    const schedule = await Schedule.find({});
+    res.status(200).send({
+      count: schedule.length,
+      data: schedule,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
 // Elimina una scheda
 router.delete("/:id", async (req, res) => {
   try {

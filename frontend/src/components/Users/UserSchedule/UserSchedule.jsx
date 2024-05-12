@@ -48,7 +48,7 @@ const UserSchedule = () => {
           <h1 className="users-page-title">{userName}</h1>
           <h4 className="user-page-id">{userId}</h4>
         </div>
-        <Link to={`/users/${userId}/schedules/create`} className="icon">
+        <Link to={`/users/${userId}/schedules/create?username=${encodeURIComponent(userName)}`} className="icon">
           <CreateIcon />
         </Link>
       </div>
@@ -81,13 +81,13 @@ const UserSchedule = () => {
                 <td className="user-page-column">
                   <div className="icons-container">
                     <Link
-                      to={`/users/${userId}/schedules/${schedule._id}/delete`}
+                      to={`/users/${userId}/schedules/${schedule._id}/delete?username=${encodeURIComponent(userName)}`}
                       className="icon"
                     >
                       <DeleteIcon />
                     </Link>
                     <Link
-                      to={`/users/${userId}/schedules/${schedule._id}/edit`}
+                      to={`/users/${userId}/schedules/${schedule._id}/edit?username=${encodeURIComponent(userName)}`}
                       className="icon"
                     >
                       <EditIcon />

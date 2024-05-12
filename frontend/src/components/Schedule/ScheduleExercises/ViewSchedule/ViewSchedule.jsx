@@ -55,7 +55,7 @@ const ViewSchedule = () => {
                   <Link to={`/users/${userId}/schedules/${scheduleId}/exercises/${exercise._id}/delete`} className="icon">
                     <DeleteIcon />
                   </Link>
-                  <Link to={`/`} className="icon">
+                  <Link to={`/users/${userId}/schedules/${scheduleId}/exercises/${exercise._id}/edit`} className="icon">
                     <EditIcon />
                   </Link>
                 </div>

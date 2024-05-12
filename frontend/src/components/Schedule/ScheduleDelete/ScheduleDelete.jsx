@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import "./ScheduleDeleteStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
@@ -9,6 +9,11 @@ const ScheduleDelete = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { userId, scheduleId } = useParams();
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userName = queryParams.get("username");
+
   
   const handleDeleteSchedule = () => {
     setLoading(true);
@@ -27,7 +32,7 @@ const ScheduleDelete = () => {
 
   return (
     <div className="delete-exercise">
-      <Link to={`/users/${userId}/schedules`} className="icon">
+      <Link to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`} className="icon">
         <LeftIcon />
       </Link>
       <h1 className="title">Elimina Utente</h1>

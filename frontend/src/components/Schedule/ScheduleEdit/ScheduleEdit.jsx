@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import LeftIcon from "../../../icons/LeftIcon";
 
 const ScheduleEdit = () => {
@@ -11,6 +11,10 @@ const ScheduleEdit = () => {
 
   const navigate = useNavigate();
   const { userId, scheduleId } = useParams();
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userName = queryParams.get("username");
 
   useEffect(() => {
     setLoading(true);
@@ -42,7 +46,7 @@ const ScheduleEdit = () => {
       .put(`http://localhost:5554/users/${userId}/schedules/${scheduleId}`, data)
       .then(() => {
         setLoading(false);
-        navigate(`/users/${userId}/schedules`);
+        navigate(`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`);
       })
       .catch((error) => {
         setLoading(false);
@@ -54,7 +58,7 @@ const ScheduleEdit = () => {
   return (
     <div className="create-schedule">
       <div className="create-schedule-header">
-        <Link to={`/users/${userId}/schedules`} className="create-schedule-icon">
+        <Link to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`} className="create-schedule-icon">
           <LeftIcon />
         </Link>
         <h1 className="title">Edit Schedule</h1>
