@@ -16,6 +16,7 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
 }
 
 .exercises-page-table {

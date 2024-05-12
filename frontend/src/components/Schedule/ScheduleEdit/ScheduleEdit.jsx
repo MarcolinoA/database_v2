@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import LeftIcon from "../../../icons/LeftIcon";
+import "./ScheduleEditStyle.css"
 
 const ScheduleEdit = () => {
   const [name, setName] = useState("");
@@ -17,6 +18,7 @@ const ScheduleEdit = () => {
   const userName = queryParams.get("username");
 
   useEffect(() => {
+    console.log(userName);
     setLoading(true);
     axios
       .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}`)
@@ -38,7 +40,7 @@ const ScheduleEdit = () => {
     const data = {
       name,
       status,
-      exercises, // Assicurati che exercises sia un array di esercizi
+      exercises,
     };
 
     setLoading(true);
@@ -56,9 +58,9 @@ const ScheduleEdit = () => {
   };
 
   return (
-    <div className="create-schedule">
-      <div className="create-schedule-header">
-        <Link to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`} className="create-schedule-icon">
+    <div className="edit-schedule">
+      <div className="edit-schedule-header">
+        <Link id="left-icon" to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`}>
           <LeftIcon />
         </Link>
         <h1 className="title">Edit Schedule</h1>
@@ -86,17 +88,7 @@ const ScheduleEdit = () => {
           />
         </div>
 
-        <div className="input-div">
-          <textarea
-            placeholder="Exercises (one per line)"
-            value={exercises.join("\n")}
-            onChange={(e) => setExercises(e.target.value.split("\n"))}
-            className="input"
-            name="exercises"
-          />
-        </div>
-
-        <button className="save-btn" onClick={handleSaveSchedule}>
+        <button className="edit-btn" onClick={handleSaveSchedule}>
           Save
         </button>
       </div>

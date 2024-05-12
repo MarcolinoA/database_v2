@@ -21,7 +21,7 @@ const ScheduleDelete = () => {
       .delete(`http://localhost:5554/users/${userId}/schedules/${scheduleId}`)
       .then(() => {
         setLoading(false);
-        navigate(`/users/${userId}/schedules`);
+        navigate(`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`);
       })
       .catch((error) => {
         setLoading(false);

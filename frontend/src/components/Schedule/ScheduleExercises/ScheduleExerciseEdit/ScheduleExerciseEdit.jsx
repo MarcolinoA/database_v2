@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LeftIcon from "../../../../icons/LeftIcon";
+import "./ScheduleExerciseEditStyle.css"
 
 const ScheduleExerciseEdit = () => {
   const [series, setSeries] = useState("");
@@ -45,7 +46,7 @@ const ScheduleExerciseEdit = () => {
       )
       .then(() => {
         setLoading(false);
-        navigate(`/users/${userId}/schedules`);
+        navigate(`/users/${userId}/schedules/${scheduleId}/view`);
       })
       .catch((error) => {
         setLoading(false);
@@ -58,8 +59,8 @@ const ScheduleExerciseEdit = () => {
     <div className="create-schedule">
       <div className="create-schedule-header">
         <Link
-          to={`/users/${userId}/schedules`}
-          className="create-schedule-icon"
+          to={`/users/${userId}/schedules/${scheduleId}/view`}
+          className="icon"
         >
           <LeftIcon />
         </Link>
@@ -88,7 +89,7 @@ const ScheduleExerciseEdit = () => {
           />
         </div>
 
-        <button className="save-btn" onClick={handleSaveScheduleExercise}>
+        <button className="edit-btn" onClick={handleSaveScheduleExercise}>
           Save
         </button>
       </div>

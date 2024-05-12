@@ -1,0 +1,41 @@
+.schedule-add-exercise {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.schedule-add-exercise-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-icon {
+  border: none;
+  background-color: #fff;
+  padding: 0;
+}
+
+.icon {
+  margin: 5px;
+}
+
+.input-container {
+	width: 400px;
+}
+
+.input-div {
+	margin: 5px;
+}
+
+.input {
+	width: 400px;
+	height: 50px;
+	font-size: 20px;
+	border-style: solid;
+	border-color: #ffb105;
+	border-radius: 8px;
+}

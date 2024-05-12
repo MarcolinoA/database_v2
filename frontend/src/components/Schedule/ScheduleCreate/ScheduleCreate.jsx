@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import LeftIcon from "../../../icons/LeftIcon";
+import "./ScheduleCreateStyle.css";
 
 const ScheduleCreate = () => {
   const [name, setName] = useState("");
@@ -40,7 +41,7 @@ const ScheduleCreate = () => {
   return (
     <div className="create-schedule">
       <div className="create-schedule-header">
-        <Link to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`} className="create-schedule-icon">
+        <Link to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`} id="left-icon" className="create-schedule-icon">
           <LeftIcon />
         </Link>
         <h1 className="title">Create Schedule</h1>
@@ -68,17 +69,7 @@ const ScheduleCreate = () => {
           />
         </div>
 
-        <div className="input-div">
-          <textarea
-            placeholder="Exercises (one per line)"
-            value={exercises.join("\n")}
-            onChange={(e) => setExercises(e.target.value.split("\n"))}
-            className="input"
-            name="exercises"
-          />
-        </div>
-
-        <button className="save-btn" onClick={handleSaveSchedule}>
+        <button className="create-btn" onClick={handleSaveSchedule}>
           Save
         </button>
       </div>

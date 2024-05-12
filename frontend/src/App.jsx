@@ -16,8 +16,8 @@ import ScheduleDelete from "./components/Schedule/ScheduleDelete/ScheduleDelete"
 import ScheduleEdit from "./components/Schedule/ScheduleEdit/ScheduleEdit";
 import ViewSchedule from "./components/Schedule/ScheduleExercises/ViewSchedule/ViewSchedule";
 import ScheduleExerciseDelete from "./components/Schedule/ScheduleExercises/ScheduleExerciseDelete/ScheduleExerciseDelete";
-import ScheduleExercisesList from "./components/Schedule/ScheduleExercises/ScheduleExercisesList/ScheduleExercisesList";
-import ScheduleExerciseEdit from "./components/Schedule/ScheduleExercises/ScheduleExeriseEdit/ScheduleExerciseEdit";
+import ScheduleAddExercise from "./components/Schedule/ScheduleExercises/ScheduleAddExercise/ScheduleAddExercise";
+import ScheduleExerciseEdit from "./components/Schedule/ScheduleExercises/ScheduleExerciseEdit/ScheduleExerciseEdit";
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
         <Route path="/users/:userId/schedules/:scheduleId/delete" element={<ScheduleDelete />} />
         <Route path="/users/:userId/schedules/:scheduleId/edit" element={<ScheduleEdit />} />
         <Route path="/users/:userId/schedules/:scheduleId/view" element={<ViewSchedule />} />
-        <Route path="/users/:userId/schedules/:scheduleId/exerciseslist" element={<ScheduleExercisesList />} />
+        <Route path="/users/:userId/schedules/:scheduleId/exerciseslist" element={<ScheduleAddExercise />} />
         <Route path="/users/:userId/schedules/:scheduleId/exercises/:exerciseId/delete" element={<ScheduleExerciseDelete />} />
         <Route path="/users/:userId/schedules/:scheduleId/exercises/:exerciseId/edit" element={<ScheduleExerciseEdit />} />
 

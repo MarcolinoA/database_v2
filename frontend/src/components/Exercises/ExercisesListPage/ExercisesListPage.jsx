@@ -55,7 +55,7 @@ const ExercisesListPage = () => {
         </div>
         <Link
           to={`/exercise/create`}
-          className="btn"
+          className="icon"
           id="right-icon-exercises-page"
         >
           <CreateIcon />
@@ -86,10 +86,10 @@ const ExercisesListPage = () => {
                 />
               </td>
               <td className="user-page-column">
-                <Link to={`/exercises/${exercise._id}/delete`} className="btn">
+                <Link to={`/exercises/${exercise._id}/delete`} className="icon">
                   <DeleteIcon />
                 </Link>
-                <Link to={`/exercises/${exercise._id}/edit`} className="btn">
+                <Link to={`/exercises/${exercise._id}/edit`} className="icon">
                   <EditIcon />
                 </Link>
               </td>

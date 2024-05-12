@@ -81,7 +81,7 @@ const ViewSchedule = () => {
           <LeftIcon />
         </Link>
         <h1>Aggiungi un esercizio</h1>
-        <button onClick={handleDownloadPDF} className="icon" id="download-pdf-btn">
+        <button onClick={handleDownloadPDF} className="btn-icon" id="download-pdf-btn">
           <DownloadIcon />
         </button>
       </div>

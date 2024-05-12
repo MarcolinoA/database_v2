@@ -5,18 +5,22 @@ import LeftIcon from "../../../../icons/LeftIcon";
 import CreateIcon from "../../../../icons/CreateIcon";
 import DeleteIcon from "../../../../icons/DeleteIcon";
 import EditIcon from "../../../../icons/EditIcon";
-import "./ScheduleExercisesListStyle.css";
+import "./ScheduleAddExerciseStyle.css";
 import AddIcon from "../../../../icons/AddIcon";
 
-const ScheduleExercisesList = () => {
+const ScheduleEditExercise = () => {
   const [exercises, setExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [loading, setLoading] = useState(false);
   const { userId, scheduleId } = useParams();
-  const [series, setSeries] = useState(""); 
-  const [rep, setRep] = useState(""); 
-  const [day, setDay] = useState(""); 
+  const [series, setSeries] = useState("");
+  const [rep, setRep] = useState("");
+  const [day, setDay] = useState("");
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userName = queryParams.get("username");
 
   useEffect(() => {
     setLoading(true);
@@ -40,7 +44,7 @@ const ScheduleExercisesList = () => {
 
   const openAddDialog = (exercise) => {
     setSelectedExercise(exercise);
-    setSeries(""); 
+    setSeries("");
     setRep("");
     setDay("");
   };
@@ -55,7 +59,7 @@ const ScheduleExercisesList = () => {
       image,
       series,
       rep,
-      day
+      day,
     };
 
     setLoading(true);
@@ -66,7 +70,11 @@ const ScheduleExercisesList = () => {
       )
       .then(() => {
         setLoading(false);
-        navigate(`/users/${userId}/schedules/${scheduleId}/view`);
+        navigate(
+          `/users/${userId}/schedules/${scheduleId}/view?username=${encodeURIComponent(
+            userName
+          )}`
+        );
       })
       .catch((error) => {
         setLoading(false);
@@ -76,19 +84,17 @@ const ScheduleExercisesList = () => {
   };
 
   return (
-    <div className="view-exercises-page">
-      <div className="view-exercises-header">
+    <div className="schedule-add-exercise">
+      <div className="schedule-add-exercise-header">
         <Link
-          to={`/users/${userId}/schedules/${scheduleId}/view`}
+          to={`/users/${userId}/schedules/${scheduleId}/view?username=${encodeURIComponent(
+            userName
+          )}`}
           className="icon"
-          id="left-icon-exercises-page"
         >
           <LeftIcon />
         </Link>
-        <h1>Aggiungi un esercizio</h1>
-        <Link to={`/exercise/create`} className="btn" id="right-icon-exercises-page">
-          <CreateIcon />
-        </Link>
+        <h1 className="title">Aggiungi un esercizio</h1>
       </div>
       <table className="exercises-page-table">
         <thead className="users-page-thead">
@@ -114,15 +120,12 @@ const ScheduleExercisesList = () => {
                 />
               </td>
               <td className="user-page-column">
-                <button className="btn" onClick={() => openAddDialog(exercise)}>
+                <button
+                  className="btn-icon"
+                  onClick={() => openAddDialog(exercise)}
+                >
                   <AddIcon />
                 </button>
-                <Link to={`/exercises/${exercise._id}/delete`} className="btn">
-                  <DeleteIcon />
-                </Link>
-                <Link to={`/exercises/${exercise._id}/edit`} className="btn">
-                  <EditIcon />
-                </Link>
               </td>
             </tr>
           ))}
@@ -130,28 +133,39 @@ const ScheduleExercisesList = () => {
       </table>
 
       {selectedExercise && (
-        <div className="modal">
+        <div className="input-container">
           <div className="modal-content">
-            <h3>Aggiungi giorno serie e ripetizioni per {selectedExercise.name}</h3>
-            <input
-              type="text"
-              value={day}
-              onChange={(e) => setDay(e.target.value)}
-              placeholder="Giorno"
-            />
-            <input
-              type="text"
-              value={series}
-              onChange={(e) => setSeries(e.target.value)}
-              placeholder="Serie"
-            />
-            <input
-              type="text"
-              value={rep}
-              onChange={(e) => setRep(e.target.value)}
-              placeholder="Ripetizioni"
-            />
-            <button className="btn" onClick={onAddClick}>
+            <h3>
+              Aggiungi giorno, serie e ripetizioni per: <br /> {selectedExercise.name}
+            </h3>
+            <div className="input-div">
+              <input
+                type="text"
+                value={day}
+                onChange={(e) => setDay(e.target.value)}
+                placeholder="Giorno"
+                className="input"
+              />
+            </div>
+            <div className="input-div">
+              <input
+                type="text"
+                value={series}
+                onChange={(e) => setSeries(e.target.value)}
+                placeholder="Serie"
+                className="input"
+              />
+            </div>
+            <div className="input-div">
+              <input
+                type="text"
+                value={rep}
+                onChange={(e) => setRep(e.target.value)}
+                placeholder="Ripetizioni"
+                className="input"
+              />
+            </div>
+            <button className="add-btn" onClick={onAddClick}>
               Aggiungi
             </button>
           </div>
@@ -161,4 +175,4 @@ const ScheduleExercisesList = () => {
   );
 };
 
-export default ScheduleExercisesList;
+export default ScheduleEditExercise;
