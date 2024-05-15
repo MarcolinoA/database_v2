@@ -6,12 +6,13 @@ import axios from "axios";
 import "./ViewScheduleStyle.css";
 import LeftIcon from "../../../../icons/LeftIcon";
 import DownloadIcon from "../../../../icons/DownloadIcon";
+import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import prova from "./prova.jpeg"
 
 const ViewSchedule = () => {
   const [exercises, setExercises] = useState([]);
-  const { userId, scheduleId } = useParams(); // Ottieni l'ID dell'utente dalla URL
+  const { userId, scheduleId } = useParams();
   const [loading, setLoading] = useState(false);
   const tableRef = useRef(null);
 
@@ -22,9 +23,7 @@ const ViewSchedule = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(
-        `http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises`
-      )
+      .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises`)
       .then((response) => {
         setExercises(response.data.data);
         setLoading(false);
@@ -35,40 +34,25 @@ const ViewSchedule = () => {
       });
   }, [userId, scheduleId]);
 
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Elenco degli Esercizi", 14, 10);
-  
-    // Utilizza il metodo autoTable di jspdf-autotable per generare la tabella PDF
-    doc.autoTable({
-      html: tableRef.current, // Passa il riferimento alla tabella HTML
-      startY: 20, // Posizione iniziale della tabella nel documento PDF
-      didDrawCell: (data) => {
-        if (data.column.index === 5 && data.cell.raw.textContent !== "") {
-          const img = new Image();
-          img.src = data.cell.raw.textContent;
-  
-          // Verifica che data.cell.textPos sia definito prima di accedere a x e y
-          if (data.cell.textPos && typeof data.cell.textPos.x !== 'undefined' && typeof data.cell.textPos.y !== 'undefined') {
-            const imgWidth = 20; // larghezza dell'immagine
-            const imgHeight = 20; // altezza dell'immagine
-            const cellWidth = data.cell.width; // larghezza della cella
-            const cellHeight = data.cell.height; // altezza della cella
-  
-            // Calcola le coordinate per centrare l'immagine nella cella
-            const offsetX = (cellWidth - imgWidth) / 2; // offset x per centrare l'immagine
-            const offsetY = (cellHeight - imgHeight) / 2; // offset y per centrare l'immagine
-  
-            // Disegna l'immagine nel documento PDF
-            doc.addImage(img, data.cell.textPos.x + offsetX, data.cell.textPos.y + offsetY, imgWidth, imgHeight);
-          }
-        }
-      }
-    });
-  
-    doc.save("exercises.pdf"); // Salva il documento PDF con il nome "exercises.pdf"
+  const handleDownload = () => {
+    if (exercises.length === 0) {
+      console.log("No data to download.");
+      return;
+    }
+
+    try {
+      html2canvas(tableRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL("image/jpeg");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const imgWidth = 190; // larghezza immagine
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // altezza proporzionale
+        pdf.addImage(imgData, "JPG", 10, 10, imgWidth, imgHeight);
+        pdf.save("exercises.pdf");
+      });
+    } catch (error) {
+      console.error('Error generating or downloading PDF:', error);
+    }
   };
-  
 
   return (
     <div className="list-page">
@@ -81,11 +65,15 @@ const ViewSchedule = () => {
           <LeftIcon />
         </Link>
         <h1>Aggiungi un esercizio</h1>
-        <button onClick={handleDownloadPDF} className="btn-icon" id="download-pdf-btn">
+        <button
+          className="btn-icon"
+          id="download-pdf-btn"
+          onClick={handleDownload}
+        >
           <DownloadIcon />
         </button>
       </div>
-      <table  ref={tableRef} className="list-table">
+      <table ref={tableRef} className="list-table">
         <thead className="list-thead">
           <tr className="title-row">
             <th className="title-column">Giorno</th>
@@ -108,7 +96,7 @@ const ViewSchedule = () => {
                 {exercise.series} x {exercise.rep}
               </td>
               <td className="info-column">
-                <img src={exercise.image} alt="" className="exercise-img" />
+                <img src={prova} alt="" className="exercise-img" />
               </td>
               <td className="info-column">
                 <div className="options-column">
