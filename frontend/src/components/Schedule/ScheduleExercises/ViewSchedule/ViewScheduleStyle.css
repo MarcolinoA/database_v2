@@ -22,3 +22,8 @@
 	border: 1px;
   cursor: pointer;
 }
+
+.info-row {
+  border: 1px;
+  border-color: #000;
+}

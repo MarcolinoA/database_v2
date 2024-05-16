@@ -61,7 +61,7 @@ const ExercisesListPage = () => {
           <CreateIcon />
         </Link>
       </div>
-      <MuscleGroupCarousel onGroupSelect={handleGroupSelect} />
+      { /*<MuscleGroupCarousel onGroupSelect={handleGroupSelect} />*/}
       <table className="exercises-page-table">
         <thead className="users-page-thead">
           <tr className="title-row">

@@ -8,7 +8,6 @@ import LeftIcon from "../../../../icons/LeftIcon";
 import DownloadIcon from "../../../../icons/DownloadIcon";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import prova from "./prova.jpeg"
 
 const ViewSchedule = () => {
   const [exercises, setExercises] = useState([]);
@@ -42,11 +41,11 @@ const ViewSchedule = () => {
 
     try {
       html2canvas(tableRef.current).then((canvas) => {
-        const imgData = canvas.toDataURL("image/jpeg");
+        const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4");
         const imgWidth = 190; // larghezza immagine
         const imgHeight = (canvas.height * imgWidth) / canvas.width; // altezza proporzionale
-        pdf.addImage(imgData, "JPG", 10, 10, imgWidth, imgHeight);
+        pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
         pdf.save("exercises.pdf");
       });
     } catch (error) {
@@ -79,8 +78,8 @@ const ViewSchedule = () => {
             <th className="title-column">Giorno</th>
             <th className="title-column">Nome</th>
             <th className="title-column">Gruppo</th>
-            <th className="title-column">Equipment</th>
-            <th className="title-column">Rep x Serie</th>
+            {/*<th className="title-column">Equipment</th>*/}
+            <th className="title-column">Serie x Rep</th>
             <th className="title-column">Img</th>
             <th className="title-column">Opzioni</th>
           </tr>
@@ -91,12 +90,12 @@ const ViewSchedule = () => {
               <td className="info-column">{exercise.day}</td>
               <td className="info-column">{exercise.name}</td>
               <td className="info-column">{exercise.group}</td>
-              <td className="info-column">{exercise.equipment}</td>
+              {/*<td className="info-column">{exercise.equipment}</td>*/}
               <td className="info-column">
                 {exercise.series} x {exercise.rep}
               </td>
               <td className="info-column">
-                <img src={prova} alt="" className="exercise-img" />
+                <img src={exercise.image} alt="" className="exercise-img" />
               </td>
               <td className="info-column">
                 <div className="options-column">
