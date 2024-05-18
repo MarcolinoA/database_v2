@@ -6,8 +6,8 @@ import axios from "axios";
 import "./ViewScheduleStyle.css";
 import LeftIcon from "../../../../icons/LeftIcon";
 import DownloadIcon from "../../../../icons/DownloadIcon";
-import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const ViewSchedule = () => {
   const [exercises, setExercises] = useState([]);
@@ -22,7 +22,9 @@ const ViewSchedule = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises`)
+      .get(
+        `http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises`
+      )
       .then((response) => {
         setExercises(response.data.data);
         setLoading(false);
@@ -33,31 +35,50 @@ const ViewSchedule = () => {
       });
   }, [userId, scheduleId]);
 
-  const handleDownload = () => {
-    if (exercises.length === 0) {
-      console.log("No data to download.");
-      return;
-    }
+  const handleDownloadPDF = async () => {
+    const pdf = new jsPDF("p", "pt", "a4");
 
-    try {
-      html2canvas(tableRef.current).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const imgWidth = 190; // larghezza immagine
-        const imgHeight = (canvas.height * imgWidth) / canvas.width; // altezza proporzionale
-        pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
-        pdf.save("exercises.pdf");
-      });
-    } catch (error) {
-      console.error('Error generating or downloading PDF:', error);
-    }
+    // Ottieni l'HTML della tabella
+    const tableHtml = tableRef.current.outerHTML;
+
+    // Filtra le immagini e rimuovile dalla tabella
+    const filteredHtml = tableHtml.replace(/<img[^>]+>/g, "");
+
+    // Aggiungi la tabella al PDF
+    pdf.html(filteredHtml, {
+      callback: function () {
+        // Aggiungi le immagini come file separati
+        exercises.forEach((exercise, index) => {
+          const imgRef = tableRef.current.querySelectorAll(".exercise-img")[index];
+          if (imgRef) {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const img = new Image();
+            img.onload = () => {
+              canvas.width = img.width;
+              canvas.height = img.height;
+              ctx.drawImage(img, 0, 0, img.width, img.height);
+              const imageData = canvas.toDataURL("image/jpeg");
+              pdf.addPage();
+              pdf.addImage(imageData, "JPEG", 10, 10);
+              if (index === exercises.length - 1) {
+                pdf.save("exercises.pdf");
+              }
+            };
+            img.src = imgRef.src;
+          }
+        });
+      },
+    });
   };
 
   return (
     <div className="list-page">
       <div className="list-header">
         <Link
-          to={`/users/${userId}/schedules?username=${encodeURIComponent(userName)}`}
+          to={`/users/${userId}/schedules?username=${encodeURIComponent(
+            userName
+          )}`}
           className="icon"
           id="left-icon-exercises-page"
         >
@@ -67,7 +88,7 @@ const ViewSchedule = () => {
         <button
           className="btn-icon"
           id="download-pdf-btn"
-          onClick={handleDownload}
+          onClick={handleDownloadPDF}
         >
           <DownloadIcon />
         </button>
@@ -78,7 +99,6 @@ const ViewSchedule = () => {
             <th className="title-column">Giorno</th>
             <th className="title-column">Nome</th>
             <th className="title-column">Gruppo</th>
-            {/*<th className="title-column">Equipment</th>*/}
             <th className="title-column">Serie x Rep</th>
             <th className="title-column">Img</th>
             <th className="title-column">Opzioni</th>
@@ -90,7 +110,6 @@ const ViewSchedule = () => {
               <td className="info-column">{exercise.day}</td>
               <td className="info-column">{exercise.name}</td>
               <td className="info-column">{exercise.group}</td>
-              {/*<td className="info-column">{exercise.equipment}</td>*/}
               <td className="info-column">
                 {exercise.series} x {exercise.rep}
               </td>
