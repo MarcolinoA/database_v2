@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LeftIcon from "../../../../icons/LeftIcon";
-import CreateIcon from "../../../../icons/CreateIcon";
-import DeleteIcon from "../../../../icons/DeleteIcon";
-import EditIcon from "../../../../icons/EditIcon";
 import "./ScheduleAddExerciseStyle.css";
 import AddIcon from "../../../../icons/AddIcon";
 
