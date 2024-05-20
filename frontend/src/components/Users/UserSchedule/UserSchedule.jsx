@@ -18,6 +18,7 @@ const UserSchedule = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const userName = queryParams.get("username");
+  const userSurname = queryParams.get("usersurname");
 
   useEffect(() => {
     setLoading(true);
@@ -45,10 +46,10 @@ const UserSchedule = () => {
           <LeftIcon />
         </Link>
         <div className="user-page-info">
-          <h1 className="users-page-title">{userName}</h1>
+          <h1 className="users-page-title">{userName} {userSurname}</h1>
           <h4 className="user-page-id">{userId}</h4>
         </div>
-        <Link to={`/users/${userId}/schedules/create?username=${encodeURIComponent(userName)}`} className="icon">
+        <Link to={`/users/${userId}/schedules/create?username=${encodeURIComponent(userName)}&usersurname=${encodeURIComponent(userSurname)}`} className="icon">
           <CreateIcon />
         </Link>
       </div>
@@ -74,20 +75,20 @@ const UserSchedule = () => {
                 </td>
                 <td className="user-page-column">{schedule.status || "N/A"}</td>
                 <td className="user-page-column">
-                  <Link to={`/users/${userId}/schedules/${schedule._id}/view?username=${encodeURIComponent(userName)}`} className="icon">
+                  <Link to={`/users/${userId}/schedules/${schedule._id}/view?username=${encodeURIComponent(userName)}&usersurname=${encodeURIComponent(userSurname)}`} className="icon">
                     <ViewingIcon />
                   </Link>
                 </td>
                 <td className="user-page-column">
                   <div className="icons-container">
                     <Link
-                      to={`/users/${userId}/schedules/${schedule._id}/delete?username=${encodeURIComponent(userName)}`}
+                      to={`/users/${userId}/schedules/${schedule._id}/delete?username=${encodeURIComponent(userName)}&usersurname=${encodeURIComponent(userSurname)}`}
                       className="icon"
                     >
                       <DeleteIcon />
                     </Link>
                     <Link
-                      to={`/users/${userId}/schedules/${schedule._id}/edit?username=${encodeURIComponent(userName)}`}
+                      to={`/users/${userId}/schedules/${schedule._id}/edit?username=${encodeURIComponent(userName)}&usersurname=${encodeURIComponent(userSurname)}`}
                       className="icon"
                     >
                       <EditIcon />

@@ -64,7 +64,7 @@ const UsersList = () => {
               <td className="info-column">{user.birth}</td>
               <td className="info-column">{user.gender}</td>
               <td className="info-column">
-                <Link to={`/users/${user._id}/schedules?username=${encodeURIComponent(user.name)}`} className="icon">
+                <Link to={`/users/${user._id}/schedules?username=${encodeURIComponent(user.name)}&usersurname=${encodeURIComponent(user.surname)}`} className="icon">
                   <InfoIcon />
                 </Link>
               </td>
