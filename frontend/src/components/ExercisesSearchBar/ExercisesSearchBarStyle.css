@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 300px;
 }
 
 .search-input {
@@ -10,7 +10,7 @@
 }
 
 .input-field {
-  width: 100%;
+  width: 300px;
   padding: 10px 5px;
   border-radius: 10px;
   border: 2px solid #ffb105;
@@ -19,8 +19,9 @@
 .search-icon {
   position: absolute;
   top: 50%;
-  right: 0px;
+  right: 10px;
   transform: translateY(-50%);
   color: #ffb105;
   cursor: pointer;
 }
+

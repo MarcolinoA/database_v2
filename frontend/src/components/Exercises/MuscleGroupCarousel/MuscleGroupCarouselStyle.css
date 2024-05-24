@@ -1,8 +1,9 @@
 .slide-container{
-  width: 80%;
+  width: 300px;
 }
 
 .slide-content {
+  width: 300px;
   margin: 0 20px;
 }
 
@@ -42,7 +43,7 @@
   align-items: center;
   cursor: pointer;
   height: 35px;
-  width: 80%;
+  width: 150px;
   opacity: 1;
   font-size: 14px;
   text-decoration: none;

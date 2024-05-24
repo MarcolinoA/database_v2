@@ -3,10 +3,11 @@ import axios from "axios";
 import "./MuscleGroupCarouselStyle.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./styles.css";
-import { Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import BodyIcon from "../../../icons/BodyIcon";
+import "./styles.css"
 
 const MuscleGroupCarousel = ({ onGroupSelect }) => {
   const [groups, setGroups] = useState([]);
@@ -19,8 +20,10 @@ const MuscleGroupCarousel = ({ onGroupSelect }) => {
     axios
       .get("http://localhost:5554/exercises/groups")
       .then((response) => {
-        setGroups(response.data.data); // Ottieni i gruppi muscolari
+        const fetchedGroups = response.data.data;
+        setGroups(fetchedGroups); // Imposta i gruppi muscolari nello stato
         setLoading(false);
+        console.log(fetchedGroups);
       })
       .catch((error) => {
         console.log(error);
@@ -47,17 +50,19 @@ const MuscleGroupCarousel = ({ onGroupSelect }) => {
   return (
     <>
       <Swiper
-        slidesPerView={3}
+        slidesPerView = {3}
         spaceBetween={30}
+
+        navigation // Aggiungxe le frecce di navigazione
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination]}
+        modules={[Navigation, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          {groups.map((group, index) => (
-            <div className="slide-container" key={index}>
+        {groups.map((group, index) => (
+          <SwiperSlide key={index}>
+            <div className="slide-container">
               <div className="slide-content">
                 <div className="card-wrapper">
                   <div className="image-content">
@@ -78,8 +83,8 @@ const MuscleGroupCarousel = ({ onGroupSelect }) => {
                 </div>
               </div>
             </div>
-          ))}
-        </SwiperSlide>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

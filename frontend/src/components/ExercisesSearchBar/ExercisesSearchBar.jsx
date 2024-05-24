@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import "./ExercisesSearchBarStyle.css";
 import axios from 'axios';
@@ -6,24 +6,8 @@ import axios from 'axios';
 const ExercisesSearchBar = ({ onSearch }) => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [exercises, setExercises] = useState([]);
-  const [searchedExercise, setSearchedExercise] = useState([]);
-
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get("http://localhost:5554/exercises")
-      .then((response) => {
-        console.log(response.data.data);
-        setExercises(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
   
+  // Funzione per gestire il click sulla icona di ricerca
   const handleSearchClick = async (name) => {
     setLoading(true);
     try {
@@ -31,23 +15,23 @@ const ExercisesSearchBar = ({ onSearch }) => {
         `http://localhost:5554/exercises/names/${name}`
       );
 
-      console.log(response.data.data);
       setLoading(false);
-      setSearchedExercise(response.data.data);
+      onSearch(response.data.data); // Passa gli esercizi trovati alla funzione onSearch
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
+  // Funzione per gestire il cambiamento del valore dell'input di ricerca
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+    setSearchTerm(event.target.value); // Aggiorna lo stato con il nuovo valore dell'input
   };
 
+  // Funzione per gestire il submit del form di ricerca
   const handleSubmit = (event) => {
-    event.preventDefault();
-    // Passa il termine di ricerca al genitore per la logica di ricerca
-    onSearch(searchTerm.trim());
+    event.preventDefault(); // Previene il comportamento predefinito del submit del form
+    handleSearchClick(searchTerm.trim()); // Effettua la ricerca
   };
 
   return (
@@ -60,8 +44,9 @@ const ExercisesSearchBar = ({ onSearch }) => {
           onChange={handleChange}
           className="input-field"
         />
-        <FaSearch className="search-icon" onClick={() => handleSearchClick(searchTerm)}/>
+        <FaSearch className="search-icon" onClick={() => handleSearchClick(searchTerm.trim())}/>
       </div>
+      {loading && <p>Loading...</p>}
     </form>
   );
 };

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import LeftIcon from "../../../icons/LeftIcon";
 import CreateIcon from "../../../icons/CreateIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 import "./ExercisesListPageStyle.css";
 import MuscleGroupCarousel from "../MuscleGroupCarousel/MuscleGroupCarousel";
-import ExercisesSearchBar from "../ExercisesSearchBar/ExercisesSearchBar";
+import ExercisesSearchBar from "../../ExercisesSearchBar/ExercisesSearchBar";
 
 const ExercisesListPage = () => {
   const [exercises, setExercises] = useState([]);
@@ -36,20 +35,16 @@ const ExercisesListPage = () => {
 
   const handleGroupSelect = (exercises) => {
     setSelectedExercises(exercises);
-    setExercises(selectedExercises);
+    setExercises(exercises);
   };
 
   const handleSearchSelect = (exercises) => {
-    setSelectedExercises(exercises);
-    setExercises(selectedExercises);
+    setExercises(exercises);
   };
 
   return (
     <div className="view-exercises-page">
       <div className="view-exercises-header">
-        <Link to="/" className="icon" id="left-icon-exercises-page">
-          <LeftIcon />
-        </Link>
         <div className="search-bar-container">
           <ExercisesSearchBar onSearch={handleSearchSelect}/>
         </div>
@@ -61,42 +56,47 @@ const ExercisesListPage = () => {
           <CreateIcon />
         </Link>
       </div>
-      { /*<MuscleGroupCarousel onGroupSelect={handleGroupSelect} />*/}
-      <table className="exercises-page-table">
-        <thead className="users-page-thead">
-          <tr className="title-row">
-            <th className="title-column">Num</th>
-            <th className="title-column">Nome</th>
-            <th className="title-column">Gruppo</th>
-            <th className="title-column">Img</th>
-            <th className="title-column">Opzioni</th>
-          </tr>
-        </thead>
-        <tbody>
-          {exercises.map((exercise) => (
-            <tr key={exercise._id} className="user-page-row">
-              <td className="user-page-column">{exercise.index}</td>
-              <td className="user-page-column">{exercise.name}</td>
-              <td className="user-page-column">{exercise.group}</td>
-              <td className="user-page-column">
-                <img
-                  src={exercise.image}
-                  alt={exercise.name}
-                  className="exercise-img"
-                />
-              </td>
-              <td className="user-page-column">
-                <Link to={`/exercises/${exercise._id}/delete`} className="icon">
-                  <DeleteIcon />
-                </Link>
-                <Link to={`/exercises/${exercise._id}/edit`} className="icon">
-                  <EditIcon />
-                </Link>
-              </td>
+      <div className="muscle-group-container">
+        <MuscleGroupCarousel onGroupSelect={handleGroupSelect} />
+      </div>
+      
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <table className="exercises-page-table">
+          <thead className="users-page-thead">
+            <tr className="title-row">                          
+              <th className="title-column">Nome</th>
+              <th className="title-column">Gruppo</th>
+              <th className="title-column">Img</th>
+              <th className="title-column">Opzioni</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {Array.isArray(exercises) && exercises.map((exercise) => (
+              <tr key={exercise._id} className="user-page-row">
+                <td className="user-page-column">{exercise.name}</td>
+                <td className="user-page-column">{exercise.group}</td>
+                <td className="user-page-column">
+                  <img
+                    src={exercise.image}
+                    alt={exercise.name}
+                    className="exercise-img"
+                  />
+                </td>
+                <td className="user-page-column">
+                  <Link to={`/exercises/${exercise._id}/delete`} className="icon">
+                    <DeleteIcon />
+                  </Link>
+                  <Link to={`/exercises/${exercise._id}/edit`} className="icon">
+                    <EditIcon />
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

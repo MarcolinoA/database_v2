@@ -4,6 +4,7 @@ import axios from "axios";
 import LeftIcon from "../../../../icons/LeftIcon";
 import "./ScheduleAddExerciseStyle.css";
 import AddIcon from "../../../../icons/AddIcon";
+import ExercisesSearchBar from "../../../ExercisesSearchBar/ExercisesSearchBar";
 
 const ScheduleEditExercise = () => {
   const [exercises, setExercises] = useState([]);
@@ -80,6 +81,10 @@ const ScheduleEditExercise = () => {
       });
   };
 
+  const handleSearchSelect = (exercises) => {
+    setExercises(exercises);
+  };
+
   return (
     <div className="schedule-add-exercise">
       <div className="schedule-add-exercise-header">
@@ -92,6 +97,9 @@ const ScheduleEditExercise = () => {
           <LeftIcon />
         </Link>
         <h1 className="title">Aggiungi un esercizio</h1>
+      </div>
+      <div className="search-bar-container">
+        <ExercisesSearchBar onSearch={handleSearchSelect}/>
       </div>
       <table className="exercises-page-table">
         <thead className="users-page-thead">

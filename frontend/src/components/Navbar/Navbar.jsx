@@ -16,11 +16,13 @@ function Navbar() {
               Home
             </NavLink>
           </li>
+          {/*
           <li className="nav-items">
             <NavLink exact to="/" className={`nav-links`}>
               Crea scheda
             </NavLink>
           </li>
+          */}
         </ul>
       </div>
     </nav>

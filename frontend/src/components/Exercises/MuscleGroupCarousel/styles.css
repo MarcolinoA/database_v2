@@ -24,6 +24,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 300px;
+}
+
+.swiper-slide.swiper-slide-next {
+  width: 300px;
 }
 
 .swiper-slide img {
@@ -40,4 +45,17 @@
 .swiper-wrapper {
   justify-content: center;
   align-items: center;
+}
+
+.swiper-button-prev
+.swiper-button-next{
+  color: black;
+}
+
+.swiper-pagination {
+  position: unset;
+}
+
+.swiper-button-prev, .swiper-button-next{
+  color: #000;
 }
