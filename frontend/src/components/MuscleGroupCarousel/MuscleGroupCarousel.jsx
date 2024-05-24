@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MuscleGroupCarouselStyle.css";
-import BodyIcon from "../../../icons/BodyIcon";
+import BodyIcon from "../../icons/BodyIcon";
 
 const MuscleGroupCarousel = ({ onGroupSelect }) => {
   const [groups, setGroups] = useState([]);

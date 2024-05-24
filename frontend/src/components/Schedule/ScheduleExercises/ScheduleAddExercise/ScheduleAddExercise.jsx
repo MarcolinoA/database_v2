@@ -5,6 +5,7 @@ import LeftIcon from "../../../../icons/LeftIcon";
 import "./ScheduleAddExerciseStyle.css";
 import AddIcon from "../../../../icons/AddIcon";
 import ExercisesSearchBar from "../../../ExercisesSearchBar/ExercisesSearchBar";
+import MuscleGroupCarousel from "../../../MuscleGroupCarousel/MuscleGroupCarousel";
 
 const ScheduleEditExercise = () => {
   const [exercises, setExercises] = useState([]);
@@ -85,6 +86,11 @@ const ScheduleEditExercise = () => {
     setExercises(exercises);
   };
 
+  const handleGroupSelect = (exercises) => {
+    setSelectedExercises(exercises);
+    setExercises(exercises);
+  };
+
   return (
     <div className="schedule-add-exercise">
       <div className="schedule-add-exercise-header">
@@ -100,6 +106,9 @@ const ScheduleEditExercise = () => {
       </div>
       <div className="search-bar-container">
         <ExercisesSearchBar onSearch={handleSearchSelect}/>
+      </div>
+      <div className="muscle-group-container">
+        <MuscleGroupCarousel onGroupSelect={handleGroupSelect} />
       </div>
       <table className="exercises-page-table">
         <thead className="users-page-thead">

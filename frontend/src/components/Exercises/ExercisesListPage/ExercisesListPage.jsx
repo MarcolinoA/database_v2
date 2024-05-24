@@ -5,8 +5,8 @@ import CreateIcon from "../../../icons/CreateIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 import "./ExercisesListPageStyle.css";
-import MuscleGroupCarousel from "../MuscleGroupCarousel/MuscleGroupCarousel";
 import ExercisesSearchBar from "../../ExercisesSearchBar/ExercisesSearchBar";
+import MuscleGroupCarousel from "../../MuscleGroupCarousel/MuscleGroupCarousel";
 
 const ExercisesListPage = () => {
   const [exercises, setExercises] = useState([]);
