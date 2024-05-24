@@ -1,50 +1,77 @@
-.slide-container{
-  width: 300px;
+.carousel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 80%;
 }
 
-.slide-content {
-  width: 300px;
-  margin: 0 20px;
+.carousel-container {
+  overflow: hidden;
+  width: 100%;
 }
 
-.image-content,
-.card-content{
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: calc(100% / 3);
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.carousel-control {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.card-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.image-content{
+.image-content {
   position: relative;
-  row-gap: 5px;
-  padding: 25px 0;
 }
 
-.card-image{
-  position: relative;
-  height: 50px;
-  width: 150px;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
-.name {
-  font-size: 18px;
-  font-weight: 500;
-  color: #333;
+.card-image {
+  width: 100px;
+  height: 100px;
+}
+
+.card-content {
+  text-align: center;
 }
 
 .carousel-btn {
+  margin: 20px;
   background-color: #ffb105;
+  border-radius: 2em;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
   color: #000;
-  border: 1px solid rgba(0, 0, 0, 0.6);
-  font-weight: 500;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  height: 35px;
-  width: 150px;
-  opacity: 1;
-  font-size: 14px;
-  text-decoration: none;
+  text-align: center;
+	height: 40px;
+	width: 120px;
+	font-size: 16px;
+	border-color: #000;
+	padding: 0;
+	border: 1px;
+  margin: 0;
+}
+
+.group-name {
+  margin-bottom: 10px;
 }
