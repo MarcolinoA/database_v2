@@ -5,17 +5,16 @@ import mongoose from 'mongoose';
 import userRoute from './routes/userRoute.js';
 import scheduleRoute from './routes/scheduleRoute.js';
 import exercisesRoute from './routes/exercisesRoute.js';
-import generatePDFRoute from './routes/generatePDFRoute.js'; // Importa la rotta per la generazione del PDF
-
+import generatePDFRoute from './routes/generatePDFRoute.js';
 const app = express();
 
-app.use(cors()); // Usa il middleware cors per gestire le richieste CORS
+app.use(cors()); // Utilize the cors middleware to handle CORS requests
 app.use(express.json());
 
 app.use('/users', userRoute);
 app.use('/schedules', scheduleRoute);
 app.use('/exercises', exercisesRoute);
-app.use('/generate-pdf', generatePDFRoute); // Usa la rotta per la generazione del PDF
+app.use('/generate-pdf', generatePDFRoute); // Use the route for PDF generation
 
 app.get('/', (request, response) => {
   console.log(request);

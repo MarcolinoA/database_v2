@@ -4,55 +4,59 @@ import "./MuscleGroupCarouselStyle.css";
 import BodyIcon from "../../icons/BodyIcon";
 
 const MuscleGroupCarousel = ({ onGroupSelect }) => {
-  const [groups, setGroups] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  const [exercises, setExercises] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [groups, setGroups] = useState([]); // State variable for exercise groups
+  const [selectedGroup, setSelectedGroup] = useState(null); // State variable for selected exercise group
+  const [exercises, setExercises] = useState([]); // State variable for exercises
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  const [currentIndex, setCurrentIndex] = useState(0); // State variable for current index of slide
+  
+  // Fetch exercise groups when component mounts
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .get("http://localhost:5554/exercises/groups")
+      .get("http://localhost:5554/exercises/groups") // Send GET request to fetch exercise groups
       .then((response) => {
-        const fetchedGroups = response.data.data;
-        setGroups(fetchedGroups);
-        setLoading(false);
-        console.log(fetchedGroups);
+        const fetchedGroups = response.data.data; // Extract exercise groups from response
+        setGroups(fetchedGroups); // Set exercise groups state with fetched data
+        setLoading(false); // Set loading status to false after successful data retrieval
+        console.log(fetchedGroups); // Log fetched exercise groups to console
       })
       .catch((error) => {
-        console.log(error);
-        setLoading(false);
+        console.log(error); // Log error to console
+        setLoading(false); // Set loading status to false in case of error
       });
-  }, []);
-
+  }, []); // Empty dependency array ensures effect runs only once when component mounts
+  
+  // Function to handle click on exercise group
   const handleGroupClick = async (group) => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true
     try {
-      const response = await axios.get(
+      const response = await axios.get( // Send GET request to fetch exercises for selected group
         `http://localhost:5554/exercises/groups/${group}`
       );
-      setExercises(response.data.data);
-      setSelectedGroup(group);
-      setLoading(false);
-      onGroupSelect(response.data.data);
+      setExercises(response.data.data); // Set exercises state with fetched data
+      setSelectedGroup(group); // Set selected group state
+      setLoading(false); // Set loading status to false after successful data retrieval
+      onGroupSelect(response.data.data); // Call callback function to handle selection of group
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+      console.log(error); // Log error to console
+      setLoading(false); // Set loading status to false in case of error
     }
   };
-
+  
+  // Function to move to the next slide
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex + 1 >= groups.length ? 0 : prevIndex + 1
-    );
+    ); // Increment index or reset to 0 if at the end
   };
-
+  
+  // Function to move to the previous slide
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? groups.length - 1 : prevIndex - 1
-    );
-  };
+    ); // Decrement index or set to last index if at the beginning
+  };  
 
   return (
     <div className="carousel">

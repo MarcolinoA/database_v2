@@ -5,53 +5,55 @@ import LeftIcon from "../../../../icons/LeftIcon";
 import "./ScheduleExerciseEditStyle.css"
 
 const ScheduleExerciseEdit = () => {
-  const [series, setSeries] = useState("");
-  const [rep, setRep] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
-  const { userId, scheduleId, scheduleExerciseId } = useParams();
-
+  const [series, setSeries] = useState(""); // State variable for series
+  const [rep, setRep] = useState(""); // State variable for repetitions
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  const navigate = useNavigate(); // Access navigation functions
+  const { userId, scheduleId, scheduleExerciseId } = useParams(); // Get user, schedule, and exercise IDs from URL parameters
+  
+  // Fetch exercise data when component mounts
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${scheduleExerciseId}`)
+      .get(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${scheduleExerciseId}`) // Send GET request to fetch exercise data
       .then((response) => {
-        const { series, rep } = response.data;
+        const { series, rep } = response.data; // Destructure series and rep from response data
         if (series !== undefined && rep !== undefined) {
-          const scheduleData = response.data;
-          setSeries(scheduleData.series);
-          setRep(scheduleData.rep);
+          // Check if series and rep are defined
+          const scheduleData = response.data; // Get exercise data
+          setSeries(scheduleData.series); // Set series state
+          setRep(scheduleData.rep); // Set rep state
         }
-        setLoading(false);
+        setLoading(false); // Set loading status to false after successful data retrieval
       })
       .catch((error) => {
-        setLoading(false);
-        console.log(error);
-        alert("An error occurred. Please check console for details.");
+        setLoading(false); // Set loading status to false in case of error
+        console.log(error); // Log error to console
+        alert("An error occurred. Please check the console for details."); // Show alert for error
       });
-  }, [userId, scheduleId, scheduleExerciseId]);
-
+  }, [userId, scheduleId, scheduleExerciseId]); // Dependency array ensures effect runs only when IDs change
+  
+  // Function to handle saving schedule exercise data
   const handleSaveScheduleExercise = () => {
     const data = {
-      series,
-      rep,
+      series, // Include series in data
+      rep, // Include rep in data
     };
   
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
       .put(
-        `http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${scheduleExerciseId}`,
+        `http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${scheduleExerciseId}`, // Send PUT request to update exercise data
         data
       )
       .then(() => {
-        setLoading(false);
-        navigate(`/users/${userId}/schedules/${scheduleId}/view`);
+        setLoading(false); // Set loading status to false after successful request
+        navigate(`/users/${userId}/schedules/${scheduleId}/view`); // Navigate to view schedule page after successful update
       })
       .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
+        setLoading(false); // Set loading status to false in case of error
+        alert("An error happened. Please check the console."); // Show alert for error
+        console.log(error); // Log error to console
       });
   };
 

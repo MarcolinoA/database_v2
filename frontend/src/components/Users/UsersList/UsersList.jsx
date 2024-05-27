@@ -9,26 +9,28 @@ import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 
 const UsersList = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+  const [users, setUsers] = useState([]); // Define state for users array
+  const [loading, setLoading] = useState(false); // Define state for loading status
+  
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .get("http://localhost:5554/users")
+      .get("http://localhost:5554/users") // Fetch users data from the server
       .then((response) => {
+        // Process the response
         const usersWithIndex = response.data.data.map((user, index) => ({
           ...user,
-          index: index + 1,
+          index: index + 1, // Add an index property to each user object
         }));
-        setUsers(usersWithIndex);
-        setLoading(false);
+        setUsers(usersWithIndex); // Update the users state with the fetched data
+        setLoading(false); // Set loading status to false after data is fetched
       })
       .catch((error) => {
+        // Handle errors if any
         console.log(error);
-        setLoading(false);
+        setLoading(false); // Set loading status to false in case of error
       });
-  }, []);
+  }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
   return (
     <div className="list-page">

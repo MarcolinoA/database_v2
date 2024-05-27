@@ -1,3 +1,4 @@
+/* Model for exercise API */
 import mongoose from "mongoose";
 
 const exerciseSchema = new mongoose.Schema({

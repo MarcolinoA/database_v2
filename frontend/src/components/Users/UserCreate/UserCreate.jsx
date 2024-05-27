@@ -5,14 +5,15 @@ import "./UserCreateStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
 const UserCreate = () => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [birth, setBirth] = useState("");
-  const [gender, setGender] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState(""); // State variable for user's name
+  const [surname, setSurname] = useState(""); // State variable for user's surname
+  const [birth, setBirth] = useState(""); // State variable for user's birth date
+  const [gender, setGender] = useState(""); // State variable for user's gender
+  const [loading, setLoading] = useState(false); // State variable for loading status
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Access navigation functions
 
+  // Function to handle saving user data
   const handleSaveUser = () => {
     const data = {
       name,
@@ -21,18 +22,19 @@ const UserCreate = () => {
       gender,
     };
 
-    setLoading(true);
-    axios
-      .post("http://localhost:5554/users", data)
-      .then(() => {
-        setLoading(false);
-        navigate("/users-page/");
-      })
-      .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
-      });
+  setLoading(true); // Set loading status to true before making the request
+  
+  axios
+    .post("http://localhost:5554/users", data) // Send POST request to save user data
+    .then(() => {
+      setLoading(false); // Set loading status to false after successful saving
+      navigate("/users-page/"); // Redirect to users page after successful saving
+    })
+    .catch((error) => {
+      setLoading(false); // Set loading status to false in case of error
+      alert("An error happened. Please check console"); // Show alert for error
+      console.log(error); // Log the error to the console for debugging
+    });
   };
 
   return (

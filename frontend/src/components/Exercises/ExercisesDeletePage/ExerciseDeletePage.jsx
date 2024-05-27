@@ -5,26 +5,28 @@ import "./ExerciseDeletePageStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
 const ExerciseDeletePage = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { exerciseId } = useParams();
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  const navigate = useNavigate(); // Function for navigating between routes
+  const { exerciseId } = useParams(); // Extract exercise ID from URL parameters
   
+  // Function to handle deleting an exercise
   const handleDeleteExercise = () => {
-    setLoading(true);
-    console.log(exerciseId);
+    setLoading(true); // Set loading status to true
+    console.log(exerciseId); // Log exercise ID to console
     axios
       .delete(`http://localhost:5554/exercises/${exerciseId}/`)
       .then(() => {
-        setLoading(false);
-        navigate("/exercises-list");
+        setLoading(false); // Set loading status to false after successful deletion
+        navigate("/exercises-list"); // Navigate to exercises list page
       })
       .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
+        setLoading(false); // Set loading status to false in case of error
+        console.error("DELETE error:", error); // Log error to console
+        alert("An error happened. Please check console"); // Show alert for error
+        console.log(error); // Log error to console
       });
   };
-
+  
   return (
     <div className="delete-exercise">
       <Link to="/exercises-list" className="icon">

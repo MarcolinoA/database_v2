@@ -6,9 +6,9 @@ import ScheduleExercise from '../models/scheduleExercises.js';
 
 const router = express.Router();
 
-/* ROUTE UTENTI */
+/* USER ROUTES */
 
-// Aggiungi un nuovo utente
+// Add a new user
 router.post("/", async (req, res) => {
   try {
     const { name, surname, birth, gender } = req.body;
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Recupera tutti gli utenti
+// Get all users
 router.get("/", async (req, res) => {
   try {
     const users = await User.find({});
@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// recupera un singolo utente
+// Get a single user
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -53,12 +53,12 @@ router.get("/:id", async (req, res) => {
     }
     res.status(200).json(user);
   } catch (error) {
-    console.error('Errore durante il recupero dei dettagli dell\'utente:', error);
-    res.status(500).send({ message: 'Errore durante il recupero dei dettagli dell\'utente' });
+    console.error('Error while retrieving user details:', error);
+    res.status(500).send({ message: 'Error while retrieving user details' });
   }
 });
 
-//modifica i dati di un utente
+// Update user data
 router.put("/:id", async (request, response) => {
   try {
     if (
@@ -68,7 +68,7 @@ router.put("/:id", async (request, response) => {
       !request.body.gender
     ) {
       return response.status(400).send({
-        message: "Send all required field: name, surname, birth, gender",
+        message: "Send all required fields: name, surname, birth, gender",
       });
     }
     const { id } = request.params;
@@ -76,14 +76,14 @@ router.put("/:id", async (request, response) => {
     if (!result) {
       return response.status(404).json({ message: "User not found" });
     }
-    return response.status(200).send({ message: "User update successfully" });
+    return response.status(200).send({ message: "User updated successfully" });
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });
 
-// Elimina un utente
+// Delete a user
 router.delete("/:id/", async (request, response) => {
   try {
     const { id } = request.params;
@@ -96,38 +96,38 @@ router.delete("/:id/", async (request, response) => {
   } catch (error) {}
 });
 
-/* ROUTE SCHEDE DI UN UTENTE */
+/* SCHEDULE ROUTES */
 
-//Crea una nuova scheda per un utente
+// Create a new schedule for a user
 router.post("/:userId/schedules", async (req, res) => {
   try {
     const { userId } = req.params;
     const { name, status, exercises } = req.body;
 
-    // Verifica che tutti i campi richiesti siano presenti nella richiesta
+    // Check if all required fields are present in the request
     if (!name || !status || !exercises) {
-      return res.status(400).send({ message: "Invia tutti i campi richiesti: name, status, exercises" });
+      return res.status(400).send({ message: "Send all required fields: name, status, exercises" });
     }
 
-    // Crea una nuova scheda nel database
+    // Create a new schedule in the database
     const newSchedule = new Schedule({
       name,
       status,
       exercises,
-      user: userId, // Associa la scheda all'utente corretto
+      user: userId, // Associate the schedule with the correct user
     });
 
-    // Salva la nuova scheda nel database
+    // Save the new schedule to the database
     const savedSchedule = await newSchedule.save();
 
-    res.status(201).json({ message: "Scheda creata con successo", schedule: savedSchedule });
+    res.status(201).json({ message: "Schedule created successfully", schedule: savedSchedule });
   } catch (error) {
-    console.error("Errore durante la creazione della scheda:", error.message);
-    res.status(500).send({ message: "Errore durante la creazione della scheda" });
+    console.error("Error while creating schedule:", error.message);
+    res.status(500).send({ message: "Error while creating schedule" });
   }
 });
 
-//stampa le schede di un utente specifico
+// Get schedules of a specific user
 router.get("/:userId/schedules", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -136,20 +136,20 @@ router.get("/:userId/schedules", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Trova le schede associate a questo utente
+    // Find schedules associated with this user
     const schedules = await Schedule.find({ user: userId });
     res.status(200).json({ count: schedules.length, data: schedules });
   } catch (error) {
-    console.error('Errore durante il recupero delle schede dell\'utente:', error);
-    res.status(500).send({ message: 'Errore durante il recupero delle schede dell\'utente' });
+    console.error('Error while retrieving user schedules:', error);
+    res.status(500).send({ message: 'Error while retrieving user schedules' });
   }
 });
 
-// Elimina una scheda di un utente
+// Delete a schedule of a user
 router.delete("/:userId/schedules/:scheduleId", async (request, response) => {
   try {
     const { userId, scheduleId } = request.params;
-    // Utilizza un metodo per eliminare la scheda specifica
+    // Use a method to delete the specific schedule
     const result = await Schedule.findOneAndDelete({ _id: scheduleId, user: userId });
     if (!result) {
       return response.status(404).json({ message: "Schedule not found" });
@@ -160,33 +160,32 @@ router.delete("/:userId/schedules/:scheduleId", async (request, response) => {
     return response.status(500).json({ message: "Error deleting schedule" });
   }
 });
-
-// modifica una scheda di un utente
+// Update a user's schedule
 router.put("/:userId/schedules/:scheduleId", async (request, response) => {
   try {
-    const { userId, scheduleId } = request.params; // Ottieni userId e scheduleId dai parametri
-    const { name, status, exercises } = request.body; // Ottieni i dati dalla richiesta body
+    const { userId, scheduleId } = request.params; // Get userId and scheduleId from parameters
+    const { name, status, exercises } = request.body; // Get data from the request body
 
-    // Controlla che tutti i campi richiesti siano presenti
+    // Check that all required fields are present
     if (!name || !status || !exercises) {
       return response.status(400).send({
         message: "Send all required fields: name, status, exercises",
       });
     }
 
-    // Cerca e aggiorna la scheda corretta usando userId e scheduleId
+    // Find and update the correct schedule using userId and scheduleId
     const updatedSchedule = await Schedule.findByIdAndUpdate(
       scheduleId,
       { name, status, exercises },
-      { new: true } // Opzione per ottenere il documento aggiornato
+      { new: true } // Option to get the updated document
     );
 
-    // Controlla se la scheda è stata trovata ed aggiornata correttamente
+    // Check if the schedule was found and updated successfully
     if (!updatedSchedule) {
       return response.status(404).json({ message: "Schedule not found" });
     }
 
-    // Rispondi con successo e il documento aggiornato
+    // Respond with success and the updated document
     return response.status(200).json({ message: "Schedule updated successfully", updatedSchedule });
   } catch (error) {
     console.log(error.message);
@@ -194,27 +193,27 @@ router.put("/:userId/schedules/:scheduleId", async (request, response) => {
   }
 });
 
-/* ROUTE ESERCICIZI DI UNA SCHEDA DI UN UTENTE */
+/* ROUTE EXERCISES OF A USER'S SCHEDULE */
 
-// Aggiungi un esercizio alla scheda di un utente specifico
+// Add an exercise to a specific user's schedule
 router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
-    const { series, rep, day } = req.body; // Dati aggiuntivi per l'esercizio
+    const { series, rep, day } = req.body; // Additional data for the exercise
 
-    // Controlla se la scheda esiste
+    // Check if the schedule exists
     const schedule = await Schedule.findById(scheduleId);
     if (!schedule) {
       return res.status(404).json({ message: "Schedule not found" });
     }
 
-    // Controlla se l'esercizio esiste
+    // Check if the exercise exists
     const exercise = await Exercise.findById(exerciseId);
     if (!exercise) {
       return res.status(404).json({ message: "Exercise not found" });
     }
 
-    // Crea un nuovo esercizio per la scheda
+    // Create a new exercise for the schedule
     const newScheduleExercise = new ScheduleExercise({
       name: exercise.name,
       group: exercise.group,
@@ -225,10 +224,10 @@ router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, 
       day: day
     });
 
-    // Salva il nuovo esercizio
+    // Save the new exercise
     await newScheduleExercise.save();
 
-    // Aggiungi l'esercizio alla scheda solo se non è già presente
+    // Add the exercise to the schedule only if it's not already present
     if (!schedule.exercises.includes(newScheduleExercise._id)) {
       schedule.exercises.push(newScheduleExercise._id);
       await schedule.save();
@@ -236,29 +235,29 @@ router.post("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, 
 
     res.status(200).json({ message: "Exercise added to schedule successfully", data: newScheduleExercise });
   } catch (error) {
-    console.error('Errore durante l\'aggiunta dell\'esercizio alla scheda:', error);
-    res.status(500).send({ message: 'Errore durante l\'aggiunta dell\'esercizio alla scheda' });
+    console.error('Error adding exercise to schedule:', error);
+    res.status(500).send({ message: 'Error adding exercise to schedule' });
   }
 });
 
-// Recupera gli esercizi specifici di una scheda di un utente specifico
+// Retrieve specific exercises of a user's schedule
 router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
   try {
     const { userId, scheduleId } = req.params;
 
-    // Controlla se l'utente esiste
+    // Check if the user exists
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Controlla se la scheda esiste per questo utente
+    // Check if the schedule exists for this user
     const schedule = await Schedule.findOne({ _id: scheduleId, user: userId });
     if (!schedule) {
       return res.status(404).json({ message: "Schedule not found for this user" });
     }
 
-    // Trova gli esercizi associati a questa scheda
+    // Find exercises associated with this schedule
     const exercises = await ScheduleExercise.find({ _id: { $in: schedule.exercises } });
     if (!exercises || exercises.length === 0) {
       return res.status(404).json({ message: "Exercises not found for this schedule" });
@@ -266,30 +265,30 @@ router.get("/:userId/schedules/:scheduleId/exercises", async (req, res) => {
 
     res.status(200).json({ count: exercises.length, data: exercises });
   } catch (error) {
-    console.error('Errore durante il recupero degli esercizi della scheda:', error);
-    res.status(500).json({ message: 'Errore durante il recupero degli esercizi della scheda' });
+    console.error('Error retrieving exercises of schedule:', error);
+    res.status(500).json({ message: 'Error retrieving exercises of schedule' });
   }
 });
 
 
-// Recupera un singolo esercizio specifico di una scheda di un utente
+// Retrieve a specific exercise of a user's schedule
 router.get("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
 
-    // Controlla se l'utente esiste
+    // Check if the user exists
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Controlla se la scheda esiste per questo utente
+    // Check if the schedule exists for this user
     const schedule = await Schedule.findOne({ _id: scheduleId, user: userId });
     if (!schedule) {
       return res.status(404).json({ message: "Schedule not found for this user" });
     }
 
-    // Trova l'esercizio specifico nella scheda
+    // Find the specific exercise in the schedule
     const exercise = await ScheduleExercise.findOne({ _id: exerciseId, _id: { $in: schedule.exercises } });
     if (!exercise) {
       return res.status(404).json({ message: "Exercise not found for this schedule" });
@@ -297,36 +296,35 @@ router.get("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, r
 
     res.status(200).json({ data: exercise });
   } catch (error) {
-    console.error('Errore durante il recupero dell\'esercizio della scheda:', error);
-    res.status(500).json({ message: 'Errore durante il recupero dell\'esercizio della scheda' });
+    console.error('Error retrieving exercise of schedule:', error);
+    res.status(500).json({ message: 'Error retrieving exercise of schedule' });
   }
 });
-
-// Modifica rep e series di un esercizio specifico
+// Update rep and series of a specific exercise
 router.put("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
     const { rep, series, day } = req.body;
 
-    // Controlla se l'utente esiste
+    // Check if the user exists
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Controlla se la scheda esiste per questo utente
+    // Check if the schedule exists for this user
     const schedule = await Schedule.findOne({ _id: scheduleId, user: userId });
     if (!schedule) {
       return res.status(404).json({ message: "Schedule not found for this user" });
     }
 
-    // Trova l'esercizio da modificare nella scheda
+    // Find the exercise to modify in the schedule
     const exercise = await ScheduleExercise.findById(exerciseId);
     if (!exercise) {
       return res.status(404).json({ message: "Exercise not found" });
     }
 
-    // Aggiorna i campi rep e series dell'esercizio
+    // Update the rep and series fields of the exercise
     exercise.rep = rep;
     exercise.series = series;
     exercise.day = day;
@@ -334,41 +332,42 @@ router.put("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, r
 
     res.status(200).json({ message: "Exercise updated successfully", data: exercise });
   } catch (error) {
-    console.error('Errore durante la modifica dell\'esercizio:', error);
-    res.status(500).json({ message: 'Errore durante la modifica dell\'esercizio' });
+    console.error('Error updating exercise:', error);
+    res.status(500).json({ message: 'Error updating exercise' });
   }
 });
 
+// Delete an exercise from a user's schedule
 router.delete("/:userId/schedules/:scheduleId/exercises/:exerciseId", async (req, res) => {
   try {
     const { userId, scheduleId, exerciseId } = req.params;
 
-    // Controlla se l'utente esiste
+    // Check if the user exists
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Controlla se la scheda esiste
+    // Check if the schedule exists
     const schedule = await Schedule.findById(scheduleId);
     if (!schedule) {
       return res.status(404).json({ message: "Schedule not found" });
     }
 
-    // Controlla se l'esercizio esiste nella scheda dell'utente
+    // Check if the exercise exists in the user's schedule
     const exerciseIndex = schedule.exercises.indexOf(exerciseId);
     if (exerciseIndex === -1) {
       return res.status(404).json({ message: "Exercise not found in this schedule" });
     }
 
-    // Rimuovi l'esercizio dalla scheda
+    // Remove the exercise from the schedule
     schedule.exercises.splice(exerciseIndex, 1);
     await schedule.save();
 
     res.status(200).json({ message: "Exercise removed from schedule successfully" });
   } catch (error) {
-    console.error('Errore durante la rimozione dell\'esercizio dalla scheda:', error);
-    res.status(500).json({ message: 'Errore durante la rimozione dell\'esercizio dalla scheda' });
+    console.error('Error removing exercise from schedule:', error);
+    res.status(500).json({ message: 'Error removing exercise from schedule' });
   }
 });
 

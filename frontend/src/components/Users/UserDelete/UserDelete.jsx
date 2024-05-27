@@ -5,24 +5,26 @@ import "./UserDeleteStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
 const UserDelete = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { userId } = useParams();
+  const [loading, setLoading] = useState(false); // Define state for loading status
+  const navigate = useNavigate(); // Access navigation functions
+  const { userId } = useParams(); // Get the user ID from the URL parameters
   
+  // Function to handle deleting user data
   const handleDeleteUser = () => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .delete(`http://localhost:5554/users/${userId}/`)
+      .delete(`http://localhost:5554/users/${userId}/`) // Send DELETE request to delete user data
       .then(() => {
-        setLoading(false);
-        navigate("/users-page/");
+        setLoading(false); // Set loading status to false after successful deletion
+        navigate("/users-page/"); // Redirect to users page after successful deletion
       })
       .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
+        setLoading(false); // Set loading status to false in case of error
+        alert("An error happened. Please check console"); // Show alert for error
+        console.log(error); // Log the error to the console for debugging
       });
   };
+  
 
   return (
     <div className="delete-exercise">

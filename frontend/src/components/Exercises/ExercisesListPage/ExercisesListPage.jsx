@@ -9,37 +9,39 @@ import ExercisesSearchBar from "../../ExercisesSearchBar/ExercisesSearchBar";
 import MuscleGroupCarousel from "../../MuscleGroupCarousel/MuscleGroupCarousel";
 
 const ExercisesListPage = () => {
-  const [exercises, setExercises] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [exercises, setExercises] = useState([]); // State variable to store exercises data
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  const [selectedExercises, setSelectedExercises] = useState([]); // State variable to store selected exercises
 
+  // useEffect hook to fetch exercises data when component mounts
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true
     axios
-      .get("http://localhost:5554/exercises")
-      .then((response) => {
-        const exercisesWithIndex = response.data.data.map(
-          (exercise, index) => ({
-            ...exercise,
-            index: index + 1,
-          })
-        );
-        setExercises(exercisesWithIndex);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
+    .get("http://localhost:5554/exercises")
+    .then((response) => {
+      // Map exercises data to include index for each exercise
+      const exercisesWithIndex = response.data.data.map((exercise, index) => ({
+        ...exercise,
+        index: index + 1,
+      }));
+      setExercises(exercisesWithIndex); // Set exercises state with updated data
+      setLoading(false); // Set loading status to false after data fetching is complete
+    })
+    .catch((error) => {
+      console.log(error); // Log error to console
+      setLoading(false); // Set loading status to false in case of error
+    });
+  }, []); // Empty dependency array to ensure useEffect runs only once, on component mount
 
+  // Function to handle selection of exercises by group
   const handleGroupSelect = (exercises) => {
-    setSelectedExercises(exercises);
-    setExercises(exercises);
+    setSelectedExercises(exercises); // Set selected exercises state with the provided exercises
+    setExercises(exercises); // Update exercises state with the selected exercises
   };
 
+  // Function to handle selection of exercises by search
   const handleSearchSelect = (exercises) => {
-    setExercises(exercises);
+    setExercises(exercises); // Update exercises state with the provided exercises
   };
 
   return (

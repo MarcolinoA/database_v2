@@ -4,35 +4,36 @@ import "./ExercisesSearchBarStyle.css";
 import axios from 'axios';
 
 const ExercisesSearchBar = ({ onSearch }) => {
-  const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  const [searchTerm, setSearchTerm] = useState(""); // State variable for search term
   
-  // Funzione per gestire il click sulla icona di ricerca
+  // Function to handle click on search icon
   const handleSearchClick = async (name) => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true
     try {
-      const response = await axios.get(
+      const response = await axios.get( // Send GET request to search exercises by name
         `http://localhost:5554/exercises/names/${name}`
       );
-
-      setLoading(false);
-      onSearch(response.data.data); // Passa gli esercizi trovati alla funzione onSearch
+  
+      setLoading(false); // Set loading status to false after successful data retrieval
+      onSearch(response.data.data); // Pass found exercises to the onSearch function
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+      console.log(error); // Log error to console
+      setLoading(false); // Set loading status to false in case of error
     }
   };
-
-  // Funzione per gestire il cambiamento del valore dell'input di ricerca
+  
+  // Function to handle change in search input value
   const handleChange = (event) => {
-    setSearchTerm(event.target.value); // Aggiorna lo stato con il nuovo valore dell'input
+    setSearchTerm(event.target.value); // Update state with the new input value
   };
-
-  // Funzione per gestire il submit del form di ricerca
+  
+  // Function to handle form submission
   const handleSubmit = (event) => {
-    event.preventDefault(); // Previene il comportamento predefinito del submit del form
-    handleSearchClick(searchTerm.trim()); // Effettua la ricerca
+    event.preventDefault(); // Prevent default form submission behavior
+    handleSearchClick(searchTerm.trim()); // Perform search
   };
+  
 
   return (
     <form className="search-container" onSubmit={handleSubmit}>

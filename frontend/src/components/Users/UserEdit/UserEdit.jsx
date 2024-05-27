@@ -5,33 +5,37 @@ import LeftIcon from "../../../icons/LeftIcon";
 import "./UserEditStyle.css"
 
 const UserEdit = () => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [birth, setBirth] = useState("");
-  const [gender, setGender] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
-  const { userId } = useParams();
-
+  const [name, setName] = useState(""); // Define state for user's name
+  const [surname, setSurname] = useState(""); // Define state for user's surname
+  const [birth, setBirth] = useState(""); // Define state for user's birthdate
+  const [gender, setGender] = useState(""); // Define state for user's gender
+  const [loading, setLoading] = useState(false); // Define state for loading status
+  
+  const navigate = useNavigate(); // Access navigation functions
+  const { userId } = useParams(); // Get the user ID from the URL parameters
+  
+  // Fetch user data from the server when the component mounts or when userId changes
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .get(`http://localhost:5554/users/${userId}`)
+      .get(`http://localhost:5554/users/${userId}`) // Fetch user data by user ID
       .then((response) => {
-        setName(response.data.name);
-        setSurname(response.data.surname);
-        setBirth(response.data.birth);
-        setGender(response.data.gender);
-        setLoading(false);
+        // Process the response
+        setName(response.data.name); // Update name state with user's name
+        setSurname(response.data.surname); // Update surname state with user's surname
+        setBirth(response.data.birth); // Update birth state with user's birthdate
+        setGender(response.data.gender); // Update gender state with user's gender
+        setLoading(false); // Set loading status to false after data is fetched
       })
       .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
+        // Handle errors if any
+        setLoading(false); // Set loading status to false in case of error
+        alert("An error happened. Please check console"); // Show alert for error
+        console.log(error); // Log the error to the console for debugging
       });
-  }, [userId]);
-
+  }, [userId]); // Depend on userId to fetch data when it changes
+  
+  // Function to handle saving user data
   const handleSaveUser = () => {
     const data = {
       name,
@@ -39,20 +43,21 @@ const UserEdit = () => {
       birth,
       gender
     };
-
-    setLoading(true);
+  
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .put(`http://localhost:5554/users/${userId}`, data)
+      .put(`http://localhost:5554/users/${userId}`, data) // Update user data using PUT request
       .then(() => {
-        setLoading(false);
-        navigate("/users-page/");
+        setLoading(false); // Set loading status to false after successful update
+        navigate("/users-page/"); // Redirect to users page after successful update
       })
       .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
+        setLoading(false); // Set loading status to false in case of error
+        alert("An error happened. Please check console"); // Show alert for error
+        console.log(error); // Log the error to the console for debugging
       });
   };
+  
 
   return (
     <div className="edit-page">

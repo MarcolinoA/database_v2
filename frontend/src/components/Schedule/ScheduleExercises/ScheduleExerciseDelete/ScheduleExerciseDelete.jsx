@@ -5,25 +5,27 @@ import LeftIcon from "../../../../icons/LeftIcon";
 import "./ScheduleExerciseDeleteStyle.css";
 
 const ScheduleExerciseDelete = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { userId, scheduleId, exerciseId } = useParams();
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  const navigate = useNavigate(); // Access navigation functions
+  const { userId, scheduleId, exerciseId } = useParams(); // Get user, schedule, and exercise IDs from URL parameters
 
+    // Function to handle deleting a schedule exercise
   const handleDeleteScheduleExercise = () => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .delete(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${exerciseId}`)
+      .delete(`http://localhost:5554/users/${userId}/schedules/${scheduleId}/exercises/${exerciseId}`) // Send DELETE request to delete the exercise
       .then(() => {
-        navigate(`/users/${userId}/schedules/${scheduleId}/view`);
+        navigate(`/users/${userId}/schedules/${scheduleId}/view`); // Navigate to view schedule page after successful deletion
       })
       .catch((error) => {
-        console.error("Errore durante l'eliminazione dell'esercizio:", error);
-        alert("Si è verificato un errore durante l'eliminazione dell'esercizio. Controlla la console per i dettagli.");
+        console.error("Error deleting exercise:", error); // Log error to console
+        alert("An error occurred while deleting the exercise. Check the console for details."); // Show alert for error
       })
       .finally(() => {
-        setLoading(false);
+        setLoading(false); // Set loading status to false after request completion
       });
   };
+
 
   return (
     <div className="delete-exercise">

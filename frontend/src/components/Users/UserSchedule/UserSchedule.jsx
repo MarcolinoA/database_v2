@@ -10,34 +10,34 @@ import DeleteIcon from "../../../icons/DeleteIcon";
 import EditIcon from "../../../icons/EditIcon";
 
 const UserSchedule = () => {
-  const { userId } = useParams(); // Ottieni l'ID dell'utente dalla URL
-  const [user, setUser] = useState(null);
-  const [schedules, setSchedules] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const userName = queryParams.get("username");
-  const userSurname = queryParams.get("usersurname");
-
+  const { userId } = useParams(); // Get the user ID from the URL parameters
+  const [user, setUser] = useState(null); // Define state for user details
+  const [schedules, setSchedules] = useState([]); // Define state for user schedules
+  const [loading, setLoading] = useState(false); // Define state for loading status
+  
+  const location = useLocation(); // Get the current location
+  const queryParams = new URLSearchParams(location.search); // Extract query parameters from the URL
+  const userName = queryParams.get("username"); // Get the username from the query parameters
+  const userSurname = queryParams.get("usersurname"); // Get the user surname from the query parameters
+  
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Set loading status to true before making the request
     axios
-      .get(`http://localhost:5554/users/${userId}/schedules`)
+      .get(`http://localhost:5554/users/${userId}/schedules`) // Fetch schedules data for the specified user
       .then((response) => {
+        // Process the response
         const userData = response.data;
-        setUser(userData);
-        setSchedules(userData.data); // Aggiorna lo stato con i dati delle schede
-        setLoading(false);
+        setUser(userData); // Update the user state with user data
+        setSchedules(userData.data); // Update the schedules state with schedule data
+        setLoading(false); // Set loading status to false after data is fetched
       })
       .catch((error) => {
-        console.error(
-          "Errore durante il recupero dei dettagli dell'utente:",
-          error
-        );
-        setLoading(false);
+        // Handle errors if any
+        console.error("Errore durante il recupero dei dettagli dell'utente:", error);
+        setLoading(false); // Set loading status to false in case of error
       });
-  }, [userId]);
+  }, [userId]); // Depend on userId to fetch data when it changes
+  
 
   return (
     <div className="users-page-container">

@@ -5,33 +5,36 @@ import "./ExercisesCreatePageStyle.css";
 import LeftIcon from "../../../icons/LeftIcon";
 
 const ExerciseCreatePage = () => {
-  const [name, setName] = useState("");
-  const [group, setGroup] = useState("");
-  const [image, setImage] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
-
+  const [name, setName] = useState(""); // State variable for exercise name
+  const [group, setGroup] = useState(""); // State variable for exercise group
+  const [image, setImage] = useState(""); // State variable for exercise image URL
+  const [loading, setLoading] = useState(false); // State variable for loading status
+  
+  const navigate = useNavigate(); // Function for navigating between routes
+  
+  // Function to handle saving exercise data
   const handleSaveExercise = () => {
     const data = {
       name,
       group,
       image,
     };
-
-    setLoading(true);
+  
+    setLoading(true); // Set loading status to true
     axios
       .post("http://localhost:5554/exercises", data)
       .then(() => {
-        setLoading(false);
-        navigate("/exercises-list");
+        setLoading(false); // Set loading status to false after successful creation
+        navigate("/exercises-list"); // Navigate to exercises list page
       })
       .catch((error) => {
-        setLoading(false);
-        alert("An error happened. Please check console");
-        console.log(error);
+        setLoading(false); // Set loading status to false in case of error
+        console.error("POST error:", error); // Log error to console
+        alert("An error happened. Please check console"); // Show alert for error
+        console.log(error); // Log error to console
       });
   };
+  
 
   return (
     <div className="create-schedule">

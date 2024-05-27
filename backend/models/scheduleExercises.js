@@ -1,3 +1,4 @@
+/* Model for schedule's exercises API */
 import mongoose from "mongoose";
 
 const scheduleExerciseSchema = new mongoose.Schema({
